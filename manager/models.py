@@ -16,7 +16,7 @@ class Team(models.Model):
 
 
 class Worker(AbstractUser):
-    position = models.ForeignKey(Position, default="Employee" , on_delete=models.SET_DEFAULT)
+    position = models.ForeignKey(Position, null=True, on_delete=models.SET_NULL)
     is_manager = models.BooleanField(default=False)
     team = models.ForeignKey(Team, null=True, on_delete=models.SET_NULL)
 
