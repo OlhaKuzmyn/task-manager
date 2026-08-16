@@ -5,15 +5,23 @@ from django.db import models
 class Position(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Project(models.Model):
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class Team(models.Model):
     name = models.CharField(max_length=255)
     projects = models.ManyToManyField(Project, blank=True, related_name="teams")
 
+    def __str__(self):
+        return self.name
 
 class Worker(AbstractUser):
     position = models.ForeignKey(Position, null=True, blank=True, on_delete=models.SET_NULL)
@@ -24,6 +32,8 @@ class Worker(AbstractUser):
 class TaskType(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
 
 class Task(models.Model):
     PRIORITY_CHOICES = {
@@ -41,3 +51,6 @@ class Task(models.Model):
     task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
     assignees = models.ManyToManyField(Worker, blank=True, related_name="tasks")
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+    def __str__(self):
+            return self.name
