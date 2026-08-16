@@ -12,7 +12,7 @@ class Project(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=255)
-    projects = models.ManyToManyField(Project, blank=True, null=True, related_name="teams")
+    projects = models.ManyToManyField(Project, blank=True, related_name="teams")
 
 
 class Worker(AbstractUser):
@@ -39,5 +39,5 @@ class Task(models.Model):
     is_completed = models.BooleanField(default=False)
     priority = models.CharField(max_length=255, choices=PRIORITY_CHOICES.items())
     task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
-    assignees = models.ManyToManyField(Worker, blank=True, null=True, related_name="tasks")
+    assignees = models.ManyToManyField(Worker, blank=True, related_name="tasks")
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
