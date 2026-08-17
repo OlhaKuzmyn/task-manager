@@ -32,6 +32,7 @@ class Worker(AbstractUser):
     is_manager = models.BooleanField(default=False)
     team = models.ForeignKey(Team, null=True, blank=True, on_delete=models.SET_NULL)
     # employed = models.BooleanField(default=False)
+    #manger???
 
 
 class TaskType(models.Model):

@@ -1,6 +1,5 @@
-from itertools import count
-
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views import generic
 
@@ -25,11 +24,11 @@ def index(request):
     return render(request, "manager/index.html", context=context)
 
 
-class TaskListView(generic.ListView):
+class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     queryset = Task.objects.select_related("project")
     paginate_by = 5
 
 
-class TaskDetailView(generic.DetailView):
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task

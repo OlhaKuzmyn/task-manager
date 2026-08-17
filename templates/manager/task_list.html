@@ -6,7 +6,8 @@
       {% for task in task_list %}
         <li>
           <a href="{% url 'manager:task-detail' pk=task.id %}">
-            {{ task.name }} {{ task.project.name }}
+            Task name: {{ task.name }}
+            Project name: {{ task.project.name }}
           </a>
         </li>
       {% endfor %}
