@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Task Manager</h1>
+  <p>Welcome to the most versatile tool for managing your work tasks</p>
+  <p>Currently, we have:</p>
+  <ul>
+    <li>Available tasks: {{ num_tasks_not_completed }}</li>
+    <li>Active projects: {{ num_projects }}</li>
+    <li>Teams: {{ num_teams }}</li>
+    <li>Workers: {{ num_workers }}</li>
+  </ul>
+{% endblock %}

@@ -23,8 +23,11 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
+
 class Worker(AbstractUser):
-    position = models.ForeignKey(Position, null=True, blank=True, on_delete=models.SET_NULL)
+    position = models.ForeignKey(
+        Position, null=True, blank=True, on_delete=models.SET_NULL
+    )
     is_manager = models.BooleanField(default=False)
     team = models.ForeignKey(Team, null=True, blank=True, on_delete=models.SET_NULL)
 
@@ -34,6 +37,7 @@ class TaskType(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Task(models.Model):
     PRIORITY_CHOICES = {
@@ -53,4 +57,4 @@ class Task(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     def __str__(self):
-            return self.name
+        return self.name

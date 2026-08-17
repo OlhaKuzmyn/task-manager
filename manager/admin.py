@@ -7,9 +7,24 @@ from manager.models import Position, Team, Project, TaskType, Task
 
 @admin.register(get_user_model())
 class WorkerAdmin(UserAdmin):
-    list_display = UserAdmin.list_display + ("position", "is_manager", "team",)
+    list_display = UserAdmin.list_display + (
+        "position",
+        "is_manager",
+        "team",
+    )
     fieldsets = UserAdmin.fieldsets + (
-        (("Additional info", {"fields": ("position", "is_manager", "team",)}),)
+        (
+            (
+                "Additional info",
+                {
+                    "fields": (
+                        "position",
+                        "is_manager",
+                        "team",
+                    )
+                },
+            ),
+        )
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
         (

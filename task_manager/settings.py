@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "crispy_bootstrap4",
     "crispy_forms",
-    "manager"
+    "manager",
 ]
 
 MIDDLEWARE = [
@@ -129,6 +129,11 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = (BASE_DIR / "static",)
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 
 # Email
