@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ worker.first_name }} {{ worker.last_name }}</h1>
+  <p>{{ worker.is_manager|yesno:"Manager," }}</p>
+  <p>Position: {{ worker.position.name }}</p>
+  <p>Team: {{ worker.team.name }}</p>
+    {% for task in worker.tasks.all %}
+      <hr>
+      <p>
+        {{ task.name }}
+      </p>
+  {% empty %}
+    <p>No tasks assigned.</p>
+  {% endfor %}
+{% endblock %}

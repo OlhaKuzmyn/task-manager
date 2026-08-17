@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% if worker_list %}
+    <ul>
+      {% for worker in worker_list %}
+        <li>
+          <a href="{% url 'manager:worker-detail' pk=worker.id %}">
+            Worker name: {{ worker.first_name }} {{ worker.last_name }}
+            Position: {{ worker.position.name }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+  <p>No workers found.</p>
+  {% endif %}
+{% endblock %}
