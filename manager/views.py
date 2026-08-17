@@ -2,6 +2,7 @@ from itertools import count
 
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
+from django.views import generic
 
 from manager.models import Task, Project, Team
 
@@ -22,3 +23,9 @@ def index(request):
     }
 
     return render(request, "manager/index.html", context=context)
+
+
+class TaskListView(generic.ListView):
+    model = Task
+    queryset = Task.objects.select_related("project")
+    paginate_by = 5

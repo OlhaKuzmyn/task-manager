@@ -11,6 +11,7 @@ class Position(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=255)
+    # is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -30,6 +31,7 @@ class Worker(AbstractUser):
     )
     is_manager = models.BooleanField(default=False)
     team = models.ForeignKey(Team, null=True, blank=True, on_delete=models.SET_NULL)
+    # employed = models.BooleanField(default=False)
 
 
 class TaskType(models.Model):
