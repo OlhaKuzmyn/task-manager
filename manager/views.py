@@ -29,3 +29,7 @@ class TaskListView(generic.ListView):
     model = Task
     queryset = Task.objects.select_related("project")
     paginate_by = 5
+
+
+class TaskDetailView(generic.DetailView):
+    model = Task
