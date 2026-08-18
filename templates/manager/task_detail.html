@@ -2,23 +2,21 @@
 
 {% block content %}
   <h1>{{ task.name }}</h1>
-  <p>{{ task.description }}</p>
-  <p>{{ task.deadline }}</p>
-  <p>{{ task.is_completed|yesno:"Completed,Not Completed" }}</p>
-  <p>{{ task.priority }}</p>
-  <p>{{ task.task_type.name }}</p>
-  <p>{{ task.project.name }}</p>
-  {% if task.assignees %}
+  <p>Description: {{ task.description }}</p>
+  <p>Due: {{ task.deadline }}</p>
+  <p>Completion: {{ task.is_completed|yesno:"Completed,Not Completed" }}</p>
+  <p>Priority: {{ task.priority }}</p>
+  <p>Task Type: {{ task.task_type.name }}</p>
+  <p>Project name: {{ task.project.name }}</p>
+  <h5>Assignees:</h5>
     <ul>
-      {% for assignee in assignees %}
+      {% for assignee in task.assignees.all %}
         <li>
           First name: {{ assignee.first_name }}
           Last name: {{ assignee.last_name }}
-          Position: {{ assignee.position.name }}
         </li>
+      {% empty %}
+      <li>No assignees</li>
       {% endfor %}
     </ul>
-  {% else %}
-  <p>No assignees found.</p>
-  {% endif %}
 {% endblock %}
