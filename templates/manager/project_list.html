@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% if project_list %}
+    <ul>
+      {% for project in project_list %}
+        <li>
+          Project name: {{ project.name }}
+          {% if project.task_set.all %}
+            <ul>
+              {% for task in project.task_set.all %}
+                <li>
+                  <a href="{% url 'manager:task-detail' pk=task.id %}">
+                    {{ task.name }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+            {% else %}
+              <p>No tasks found.</p>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+  <p>No projects found.</p>
+  {% endif %}
+{% endblock %}

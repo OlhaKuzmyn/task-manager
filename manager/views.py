@@ -39,5 +39,12 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
     queryset = Worker.objects.select_related("position")
     paginate_by = 5
 
+
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
+
+
+class ProjectListView(LoginRequiredMixin, generic.ListView):
+    model = Project
+    queryset = Project.objects.prefetch_related("task_set")
+    paginate_by = 5
