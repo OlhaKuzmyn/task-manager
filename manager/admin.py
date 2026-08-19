@@ -9,7 +9,7 @@ from manager.models import Position, Team, Project, TaskType, Task
 class WorkerAdmin(UserAdmin):
     list_display = UserAdmin.list_display + (
         "position",
-        "is_manager",
+        # "is_manager",
         "team",
     )
     fieldsets = UserAdmin.fieldsets + (
@@ -19,7 +19,7 @@ class WorkerAdmin(UserAdmin):
                 {
                     "fields": (
                         "position",
-                        "is_manager",
+                        # "is_manager",
                         "team",
                     )
                 },
@@ -35,7 +35,7 @@ class WorkerAdmin(UserAdmin):
                         "first_name",
                         "last_name",
                         "position",
-                        "is_manager",
+                        # "is_manager",
                         "team",
                     )
                 },

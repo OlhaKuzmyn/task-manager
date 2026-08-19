@@ -30,7 +30,7 @@ class Worker(AbstractUser):
     position = models.ForeignKey(
         Position, null=True, blank=True, on_delete=models.SET_NULL
     )
-    is_manager = models.BooleanField(default=False)
+    # is_manager = models.BooleanField(default=False)
     team = models.ForeignKey(Team, null=True, blank=True, on_delete=models.SET_NULL)
     # employed = models.BooleanField(default=False)
     #manger???
