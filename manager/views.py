@@ -44,7 +44,10 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
 
-#add manager permission to worker?
+# add manager permission to worker?
+# different update for manager and for worker
+# worker to be able to update only themselves
+# manager being able to update all workers
 
 class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project
@@ -136,4 +139,29 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
 
 class TeamDetailView(LoginRequiredMixin, generic.DetailView):
     model = Team
+# add worker to a team through team view or user view
+# or create separate forms and views and/or forms for manager user edit and regular user edit
+
+class TeamCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+    model = Team
+    fields = "__all__"
+    permission_required = "teams.add_team"
+
+    def get_success_url(self):
+        return reverse_lazy("manager:team-detail", kwargs={"pk": self.object.pk})
+
+
+class TeamUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+    model = Team
+    fields = "__all__"
+    permission_required = "teams.change_team"
+
+    def get_success_url(self):
+        return reverse_lazy("manager:team-detail", kwargs={"pk": self.object.pk})
+
+
+class TeamDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+    model = Team
+    permission_required = "teams.delete_team"
+    success_url = reverse_lazy("manager:team-list")
 

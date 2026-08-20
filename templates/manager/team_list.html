@@ -15,4 +15,7 @@
     {% else %}
     <p>No teams found.</p>
     {% endif %}
+    {% if perms.team.add_team %}
+        <a href="{% url 'manager:team-create' %}" class="btn btn-primary">Add team</a>
+    {% endif %}
 {% endblock %}
