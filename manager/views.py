@@ -107,3 +107,23 @@ class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 5
     template_name = "manager/task_type_list.html"
     context_object_name = "task_type_list"
+
+class TaskTypeCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+    model = TaskType
+    fields = "__all__"
+    permission_required = "tasktypes.add_tasktype"
+    template_name = "manager/task_type_form.html"
+    success_url = reverse_lazy("manager:task-type-list")
+
+class TaskTypeUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+    model = TaskType
+    fields = "__all__"
+    permission_required = "tasktypes.change_tasktype"
+    template_name = "manager/task_type_form.html"
+    success_url = reverse_lazy("manager:task-type-list")
+
+class TaskTypeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+    model = TaskType
+    permission_required = "tasktypes.delete_tasktype"
+    template_name = "manager/task_type_confirm_delete.html"
+    success_url = reverse_lazy("manager:task-type-list")
