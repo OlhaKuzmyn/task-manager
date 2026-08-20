@@ -1,24 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {% if position_list %}
-    <ul>
-      {% for position in position_list %}
-        <li>
-          {{ position.name }}
-          {% if perms.position.change_position %}
-            <a href="{% url 'manager:position-update' pk=position.id %}" class="btn btn-secondary">Edit position</a>
-          {% endif %}
-          {% if perms.position.delete_position %}
-            <a href="{% url 'manager:position-delete' pk=position.id %}" class="btn btn-danger">Delete position</a>
-          {% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-  <p>No positions found.</p>
-  {% endif %}
-  {% if perms.position.add_position %}
-      <a href="{% url 'manager:position-create' %}" class="btn btn-primary">Add position</a>
-  {% endif %}
+  <h1>Positions</h1>
+    {% if position_list %}
+      <ul>
+        {% for position in position_list %}
+          <li>
+            {{ position.name }}
+            {% if perms.position.change_position %}
+              <a href="{% url 'manager:position-update' pk=position.id %}" class="btn btn-secondary">Edit position</a>
+            {% endif %}
+            {% if perms.position.delete_position %}
+              <a href="{% url 'manager:position-delete' pk=position.id %}" class="btn btn-danger">Delete position</a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+    <p>No positions found.</p>
+    {% endif %}
+    {% if perms.position.add_position %}
+        <a href="{% url 'manager:position-create' %}" class="btn btn-primary">Add position</a>
+    {% endif %}
 {% endblock %}

@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from manager.models import Task, Project, Team, Worker, Position
+from manager.models import Task, Project, Team, Worker, Position, TaskType
 
 
 def index(request):
@@ -44,6 +44,7 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
 
+#add manager permission to worker?
 
 class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project
@@ -100,3 +101,9 @@ class PositionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.De
     model = Position
     permission_required = "positions.delete_position"
     success_url = reverse_lazy("manager:position-list")
+
+class TaskTypeListView(LoginRequiredMixin, generic.ListView):
+    model = TaskType
+    paginate_by = 5
+    template_name = "manager/task_type_list.html"
+    context_object_name = "task_type_list"
