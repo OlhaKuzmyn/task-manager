@@ -1,5 +1,6 @@
 from django.urls import path
 
+from manager.models import Position
 from manager.views import (
     index,
     TaskListView,
@@ -10,6 +11,7 @@ from manager.views import (
     ProjectCreateView,
     ProjectDetailView,
     ProjectUpdateView,
+    PositionListView,
 )
 
 app_name = "manager"
@@ -24,4 +26,6 @@ urlpatterns = [
     path("projects/<int:pk>/", ProjectDetailView.as_view(), name="project-detail"),
     path("projects/create", ProjectCreateView.as_view(), name="project-create"),
     path("projects/update/<int:pk>/", ProjectUpdateView.as_view(), name="project-update"),
+    path("positions/", PositionListView.as_view(), name="position-list"),
+    # path("task-type/", TaskTypeListView.as_view(), name="task-type-list"),
 ]

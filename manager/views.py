@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from manager.models import Task, Project, Team, Worker
+from manager.models import Task, Project, Team, Worker, Position
 
 
 def index(request):
@@ -71,3 +71,8 @@ class ProjectUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upd
 
     def get_success_url(self):
         return reverse_lazy("manager:project-detail", kwargs={"pk": self.object.pk})
+
+
+class PositionListView(LoginRequiredMixin, generic.ListView):
+    model = Position
+    paginate_by = 5
