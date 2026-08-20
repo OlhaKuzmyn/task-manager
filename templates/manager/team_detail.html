@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ team.name }}</h1>
+<!--  <p>Description: {{ project.description }}</p>-->
+
+  <h5>Team members:</h5>
+    <ul>
+      {% for worker in team.worker_set.all %}
+        <li>
+          <a href="{% url 'manager:worker-detail' pk=worker.id %}">
+            {{ worker.first_name }} {{ worker.last_name }}
+          </a>
+        </li>
+      {% empty %}
+      <li>No team members found.</li>
+      {% endfor %}
+    </ul>
+
+{% endblock %}

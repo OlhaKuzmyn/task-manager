@@ -6,7 +6,9 @@
       <ul>
         {% for team in team_list %}
           <li>
-            {{ team.name }}
+            <a href="{% url 'manager:team-detail' pk=team.id %}">
+              {{ team.name }}
+            </a>
           </li>
         {% endfor %}
       </ul>

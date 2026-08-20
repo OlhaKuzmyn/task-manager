@@ -132,3 +132,8 @@ class TaskTypeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.De
 class TeamListView(LoginRequiredMixin, generic.ListView):
     model = Team
     paginate_by = 5
+
+
+class TeamDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Team
+
