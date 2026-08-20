@@ -73,6 +73,12 @@ class ProjectUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upd
         return reverse_lazy("manager:project-detail", kwargs={"pk": self.object.pk})
 
 
+class ProjectDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+    model = Project
+    permission_required = "projects.delete_project"
+    success_url = reverse_lazy("manager:project-list")
+
+
 class PositionListView(LoginRequiredMixin, generic.ListView):
     model = Position
     paginate_by = 5
