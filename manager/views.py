@@ -76,3 +76,9 @@ class ProjectUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upd
 class PositionListView(LoginRequiredMixin, generic.ListView):
     model = Position
     paginate_by = 5
+
+
+class PositionCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+    model = Position
+    fields = "__all__"
+    permission_required = "positions.add_position"

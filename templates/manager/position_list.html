@@ -12,4 +12,7 @@
   {% else %}
   <p>No positions found.</p>
   {% endif %}
+  {% if perms.position.add_position %}
+      <a href="{% url 'manager:position-create' %}" class="btn btn-primary">Add position</a>
+  {% endif %}
 {% endblock %}
