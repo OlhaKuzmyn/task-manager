@@ -58,7 +58,6 @@ class ProjectCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Cre
     model = Project
     fields = "__all__"
     permission_required = "projects.add_project"
-    # success_url = reverse_lazy("manager:project-list")
 
     def get_success_url(self):
         return reverse_lazy("manager:project-detail", kwargs={"pk": self.object.pk})
@@ -88,4 +87,16 @@ class PositionCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Cr
     model = Position
     fields = "__all__"
     permission_required = "positions.add_position"
+    success_url = reverse_lazy("manager:position-list")
+
+
+class PositionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+    model = Position
+    fields = "__all__"
+    permission_required = "positions.change_position"
+    success_url = reverse_lazy("manager:position-list")
+
+class PositionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+    model = Position
+    permission_required = "positions.delete_position"
     success_url = reverse_lazy("manager:position-list")
