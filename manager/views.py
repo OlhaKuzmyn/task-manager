@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
 
 from manager.models import Task, Project, Team, Worker
@@ -48,3 +49,10 @@ class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project
     queryset = Project.objects.prefetch_related("task_set")
     paginate_by = 5
+
+
+class ProjectCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+    model = Project
+    fields = "__all__"
+    success_url = reverse_lazy("manager:project-list")
+    permission_required = "projects.add_project"

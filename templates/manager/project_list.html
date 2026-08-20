@@ -25,4 +25,9 @@
   {% else %}
   <p>No projects found.</p>
   {% endif %}
+  {% if perms.project.add_project %}
+<!--    <button class="btn btn-primary">-->
+      <a href="{% url 'manager:project-create' %}" class="btn btn-primary">Add project</a>
+<!--    </button>-->
+  {% endif %}
 {% endblock %}
