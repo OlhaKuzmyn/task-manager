@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ project.name }}</h1>
+<!--  <p>Description: {{ project.description }}</p>-->
+
+  <h5>Tasks:</h5>
+    <ul>
+      {% for task in project.task_set.all %}
+        <li>
+          <a href="{% url 'manager:task-detail' pk=task.id %}">
+            {{ task.name }}
+          </a>
+        </li>
+      {% empty %}
+      <li>No tasks found.</li>
+      {% endfor %}
+    </ul>
+{% endblock %}

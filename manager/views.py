@@ -47,8 +47,11 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
 
 class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project
-    queryset = Project.objects.prefetch_related("task_set")
     paginate_by = 5
+
+
+class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Project
 
 
 class ProjectCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
