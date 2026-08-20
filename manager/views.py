@@ -57,5 +57,17 @@ class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
 class ProjectCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = Project
     fields = "__all__"
-    success_url = reverse_lazy("manager:project-list")
     permission_required = "projects.add_project"
+    # success_url = reverse_lazy("manager:project-list")
+
+    def get_success_url(self):
+        return reverse_lazy("manager:project-detail", kwargs={"pk": self.object.pk})
+
+
+class ProjectUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+    model = Project
+    fields = "__all__"
+    permission_required = "projects.change_project"
+
+    def get_success_url(self):
+        return reverse_lazy("manager:project-detail", kwargs={"pk": self.object.pk})
