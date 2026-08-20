@@ -4,14 +4,14 @@ from django.urls import reverse
 
 
 class Position(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class Project(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     # is_active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -19,7 +19,7 @@ class Project(models.Model):
 
 
 class Team(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     projects = models.ManyToManyField(Project, blank=True, related_name="teams")
 
     def __str__(self):
@@ -41,7 +41,7 @@ class Worker(AbstractUser):
 
 
 class TaskType(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name

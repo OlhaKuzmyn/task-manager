@@ -82,3 +82,4 @@ class PositionCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Cr
     model = Position
     fields = "__all__"
     permission_required = "positions.add_position"
+    success_url = reverse_lazy("manager:position-list")
