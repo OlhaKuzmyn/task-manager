@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Teams</h1>
+    {% if team_list %}
+      <ul>
+        {% for team in team_list %}
+          <li>
+            {{ team.name }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+    <p>No teams found.</p>
+    {% endif %}
+{% endblock %}

@@ -127,3 +127,8 @@ class TaskTypeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.De
     permission_required = "tasktypes.delete_tasktype"
     template_name = "manager/task_type_confirm_delete.html"
     success_url = reverse_lazy("manager:task-type-list")
+
+
+class TeamListView(LoginRequiredMixin, generic.ListView):
+    model = Team
+    paginate_by = 5
