@@ -19,9 +19,9 @@ class TaskSearchForm(forms.Form):
         label="Deadline on before",
         widget=forms.DateInput(
             attrs={
-            "placeholder": "Search by deadline",
-            "type": "date",
-        }
+                "placeholder": "Search by deadline",
+                "type": "date",
+            }
         )
     )
     is_completed = forms.BooleanField(
@@ -51,3 +51,15 @@ class TaskSearchForm(forms.Form):
         label="No assignees",
         widget=forms.CheckboxInput()
     )
+
+
+class TaskForm(forms.ModelForm):
+
+    class Meta:
+        model = Task
+        fields = "__all__"
+        widgets = {
+            "deadline": forms.DateInput(attrs={
+                "type": "date",
+            })
+        }
