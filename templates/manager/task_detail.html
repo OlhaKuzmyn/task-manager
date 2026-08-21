@@ -19,4 +19,8 @@
       <li>No assignees</li>
       {% endfor %}
     </ul>
+  <a href="{% url 'manager:task-update' pk=task.id %}" class="btn btn-secondary">Edit task</a>
+  <a href="{% url 'manager:task-delete' pk=task.id %}" class="btn btn-danger">
+      Delete task
+  </a>
 {% endblock %}

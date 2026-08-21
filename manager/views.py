@@ -94,6 +94,19 @@ class TaskCreateView(LoginRequiredMixin, generic.CreateView):
         return reverse_lazy("manager:task-detail", kwargs={"pk": self.object.pk})
 
 
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Task
+    form_class = TaskForm
+
+    def get_success_url(self):
+        return reverse_lazy("manager:task-detail", kwargs={"pk": self.object.pk})
+
+
+class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Task
+    success_url = reverse_lazy("manager:task-list")
+
+
 class WorkerListView(LoginRequiredMixin, generic.ListView):
     model = Worker
     queryset = Worker.objects.select_related("position")
