@@ -36,11 +36,17 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         name = self.request.GET.get("name", "")
         deadline = self.request.GET.get("deadline", "")
         is_completed = self.request.GET.get("is_completed", False)
+        priority = self.request.GET.get("priority", "")
+        task_type = self.request.GET.get("task_type", "")
+        project = self.request.GET.get("project", "")
         context["search_form"] = TaskSearchForm(
             initial={
                 "name": name,
                 "is_completed": is_completed,
                 "deadline": deadline,
+                "priority": priority,
+                "task_type": task_type,
+                "project": project,
             }
         )
         return context
@@ -48,17 +54,33 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         queryset = Task.objects.select_related("project")
         form = TaskSearchForm(self.request.GET)
+
         if form.is_valid():
             deadline = form.cleaned_data.get("deadline")
+            priority = form.cleaned_data["priority"]
+            task_type = form.cleaned_data["task_type"]
+            project = form.cleaned_data["project"]
+            name = form.cleaned_data["name"]
+            is_completed = form.cleaned_data["is_completed"]
+            no_assignees = form.cleaned_data["no_assignees"]
+
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+            if is_completed:
+                queryset = form.cleaned_data["is_completed"]
             if deadline:
                 queryset = queryset.filter(deadline__lte=deadline)
-            return queryset.filter(
-                Q(name__icontains=form.cleaned_data["name"]) &
-                Q(is_completed=form.cleaned_data["is_completed"])
-            )
+            if priority:
+                queryset = queryset.filter(priority=priority)
+            if task_type:
+                queryset = queryset.filter(task_type__name=task_type)
+            if project:
+                queryset = queryset.filter(project__name=project)
+            if no_assignees:
+                queryset = queryset.filter(assignees=None)
+
         return queryset
 
-# create another view for completed and not completed tasks or figure out the way to filter view
 
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
