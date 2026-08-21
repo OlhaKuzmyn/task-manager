@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
@@ -33,9 +34,11 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(TaskListView, self).get_context_data(**kwargs)
         name = self.request.GET.get("name", "")
+        is_completed = self.request.GET.get("is_completed", False)
         context["search_form"] = TaskSearchForm(
             initial={
                 "name": name,
+                "is_completed": is_completed,
             }
         )
         return context
@@ -45,7 +48,8 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         form = TaskSearchForm(self.request.GET)
         if form.is_valid():
             return queryset.filter(
-                name__icontains=form.cleaned_data["name"]
+                Q(name__icontains=form.cleaned_data["name"]) &
+                Q(is_completed=form.cleaned_data["is_completed"])
             )
         return queryset
 

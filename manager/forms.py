@@ -18,13 +18,12 @@ class TaskSearchForm(forms.Form):
     #         "placeholder": "Search by deadline",
     #     })
     # )
-    # is_completed = forms.BooleanField(
-    #     required=False,
-    #     label="",
-    #     widget=forms.CheckboxInput(attrs={
-    #         "checked": "Completed",
-    #     })
-    # )
+    is_completed = forms.BooleanField(
+        initial=False,
+        required=False,
+        label="Completed",
+        widget=forms.CheckboxInput()
+    )
     # priority = forms.ChoiceField(
     #
     # )
