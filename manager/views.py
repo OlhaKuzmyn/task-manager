@@ -67,7 +67,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
             if name:
                 queryset = queryset.filter(name__icontains=name)
             if is_completed:
-                queryset = form.cleaned_data["is_completed"]
+                queryset = queryset.filter(is_completed=is_completed)
             if deadline:
                 queryset = queryset.filter(deadline__lte=deadline)
             if priority:

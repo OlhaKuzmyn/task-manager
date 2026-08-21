@@ -12,7 +12,6 @@ class Position(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=255, unique=True)
-    # is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -48,18 +47,7 @@ class TaskType(models.Model):
 
 
 class Task(models.Model):
-    # PRIORITY_CHOICES = {
-    #     "URGENT": "URGENT",
-    #     "HIGH": "HIGH",
-    #     "MEDIUM": "MEDIUM",
-    #     "LOW": "LOW",
-    # }
-    # PRIORITY_CHOICES = {
-    #     0: "URGENT",
-    #     1: "HIGH",
-    #     2: "MEDIUM",
-    #     3: "LOW",
-    # }
+
     class Priority(models.IntegerChoices):
         URGENT = 0, "Urgent"
         HIGH = 1, "High"
