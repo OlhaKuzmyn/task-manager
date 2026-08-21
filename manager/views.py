@@ -34,11 +34,13 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super(TaskListView, self).get_context_data(**kwargs)
         name = self.request.GET.get("name", "")
+        deadline = self.request.GET.get("deadline", "")
         is_completed = self.request.GET.get("is_completed", False)
         context["search_form"] = TaskSearchForm(
             initial={
                 "name": name,
                 "is_completed": is_completed,
+                "deadline": deadline,
             }
         )
         return context
@@ -47,6 +49,9 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         queryset = Task.objects.select_related("project")
         form = TaskSearchForm(self.request.GET)
         if form.is_valid():
+            deadline = form.cleaned_data.get("deadline")
+            if deadline:
+                queryset = queryset.filter(deadline__lte=deadline)
             return queryset.filter(
                 Q(name__icontains=form.cleaned_data["name"]) &
                 Q(is_completed=form.cleaned_data["is_completed"])

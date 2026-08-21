@@ -5,7 +5,7 @@
   <p>Description: {{ task.description }}</p>
   <p>Due: {{ task.deadline }}</p>
   <p>Completion: {{ task.is_completed|yesno:"Completed,Not Completed" }}</p>
-  <p>Priority: {{ task.priority }}</p>
+  <p>Priority: {{ task.get_priority_display }}</p>
   <p>Task Type: {{ task.task_type.name }}</p>
   <p>Project name: {{ task.project.name }}</p>
   <h5>Assignees:</h5>

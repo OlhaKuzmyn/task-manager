@@ -11,13 +11,16 @@ class TaskSearchForm(forms.Form):
             "placeholder": "Search by name",
         })
     )
-    # deadline = forms.DateTimeField(
-    #     required=False,
-    #     label="",
-    #     widget=forms.DateTimeInput(attrs={
-    #         "placeholder": "Search by deadline",
-    #     })
-    # )
+    deadline = forms.DateField(
+        required=False,
+        label="Deadline on before",
+        widget=forms.DateInput(
+            attrs={
+            "placeholder": "Search by deadline",
+            "type": "date",
+        }
+        )
+    )
     is_completed = forms.BooleanField(
         initial=False,
         required=False,
