@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -84,6 +84,17 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
+
+    def post(self, request, *args, **kwargs):
+        update_task = self.get_object()
+        new_assignee = request.user
+        if new_assignee in update_task.assignees.all():
+            update_task.assignees.remove(new_assignee)
+            update_task.save()
+        else:
+            update_task.assignees.add(new_assignee)
+            update_task.save()
+        return redirect("manager:task-detail", pk=update_task.pk)
 
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
