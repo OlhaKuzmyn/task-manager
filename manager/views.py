@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from manager.forms import TaskSearchForm, TaskForm
+from manager.forms import TaskSearchForm, TaskForm, WorkerCreationForm
 from manager.models import Task, Project, Team, Worker, Position, TaskType
 
 
@@ -131,6 +131,13 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
 # different update for manager and for worker
 # worker to be able to update only themselves
 # manager being able to update all workers
+
+
+class WorkerCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+    model = Worker
+    form_class = WorkerCreationForm
+    permission_required = "workers.add_worker"
+
 
 class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project

@@ -1,6 +1,7 @@
 from black.brackets import Priority
 from django import forms
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm
 
 from manager.models import Task, TaskType, Project
 
@@ -63,3 +64,12 @@ class TaskForm(forms.ModelForm):
                 "type": "date",
             })
         }
+
+
+class WorkerCreationForm(UserCreationForm):
+
+    class Meta(UserCreationForm.Meta):
+        model = get_user_model()
+        fields = UserCreationForm.Meta.fields + (
+            "first_name", "last_name", "email", "position", "team"
+        )
