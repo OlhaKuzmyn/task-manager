@@ -1,11 +1,14 @@
+from multiprocessing.pool import worker
+
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from manager.forms import TaskSearchForm, TaskForm, WorkerCreationForm
+from manager.forms import TaskSearchForm, TaskForm, WorkerCreationForm, WorkerUpdateForm
 from manager.models import Task, Project, Team, Worker, Position, TaskType
 
 
@@ -137,6 +140,29 @@ class WorkerCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Crea
     model = Worker
     form_class = WorkerCreationForm
     permission_required = "workers.add_worker"
+
+
+class WorkerUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = Worker
+    form_class = WorkerUpdateForm
+
+    def get_object(self, queryset=None):
+        if not hasattr(self, "_object"):
+            self._object = super().get_object(queryset)
+        return self._object
+
+    def test_func(self):
+        update_user = self.get_object()
+        return (
+            self.request.user == update_user
+            or self.request.user.has_perm("workers.add_worker")
+        )
+
+    def handle_no_permission(self):
+        raise PermissionDenied
+
+    def get_success_url(self):
+        return reverse_lazy("manager:worker-detail", kwargs={"pk": self.object.pk})
 
 
 class ProjectListView(LoginRequiredMixin, generic.ListView):

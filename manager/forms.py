@@ -1,7 +1,7 @@
 from black.brackets import Priority
 from django import forms
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from manager.models import Task, TaskType, Project
 
@@ -73,3 +73,18 @@ class WorkerCreationForm(UserCreationForm):
         fields = UserCreationForm.Meta.fields + (
             "first_name", "last_name", "email", "position", "team"
         )
+
+
+class WorkerUpdateForm(UserChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields.pop("password", None)
+
+    class Meta(UserChangeForm.Meta):
+        model = get_user_model()
+        fields = (
+            "username", "first_name", "last_name", "email", "position", "team",
+        )
+        # exclude = ("password",)
+
+

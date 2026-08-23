@@ -3,8 +3,10 @@
 {% block content %}
   <h1>{{ worker.first_name }} {{ worker.last_name }}</h1>
 <!--  <p>{{ worker.is_manager|yesno:"Manager," }}</p>-->
+  <p>Email: {{ worker.email }}</p>
   <p>Position: {{ worker.position.name }}</p>
   <p>Team: {{ worker.team.name }}</p>
+  <p>Tasks:</p>
     {% for task in worker.tasks.all %}
       <hr>
       <p>
@@ -13,4 +15,7 @@
     {% empty %}
       <p>No tasks assigned.</p>
     {% endfor %}
+  {% if user.id == worker.id or perms.worker.add_worker %}
+    <a href="{% url 'manager:worker-update' pk=worker.id %}" class="btn btn-secondary">Edit worker</a>
+  {% endif %}
 {% endblock %}
