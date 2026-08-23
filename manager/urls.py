@@ -1,6 +1,5 @@
 from django.urls import path
 
-from manager.models import Position
 from manager.views import (
     index,
     TaskListView,

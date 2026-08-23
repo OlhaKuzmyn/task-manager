@@ -2,6 +2,7 @@ from multiprocessing.pool import worker
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.views import PasswordChangeView
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
 from django.shortcuts import render, redirect
@@ -163,6 +164,10 @@ class WorkerUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateVi
 
     def get_success_url(self):
         return reverse_lazy("manager:worker-detail", kwargs={"pk": self.object.pk})
+
+
+class WorkerPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
+    model = Worker
 
 
 class WorkerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
