@@ -165,6 +165,12 @@ class WorkerUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateVi
         return reverse_lazy("manager:worker-detail", kwargs={"pk": self.object.pk})
 
 
+class WorkerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+    model = Worker
+    permission_required = "workers.delete_worker"
+    success_url = reverse_lazy("manager:worker-list")
+
+
 class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project
     paginate_by = 5

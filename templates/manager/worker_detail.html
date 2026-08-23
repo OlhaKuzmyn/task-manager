@@ -18,4 +18,8 @@
   {% if user.id == worker.id or perms.worker.add_worker %}
     <a href="{% url 'manager:worker-update' pk=worker.id %}" class="btn btn-secondary">Edit worker</a>
   {% endif %}
+  {% if perms.worker.delete_worker %}
+    <a href="{% url 'manager:worker-delete' pk=worker.id %}" class="btn btn-danger">Delete worker</a>
+  {% endif %}
+
 {% endblock %}
