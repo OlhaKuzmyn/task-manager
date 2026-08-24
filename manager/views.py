@@ -2,10 +2,11 @@ from multiprocessing.pool import worker
 
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import Group
 from django.contrib.auth.views import PasswordChangeView
 from django.core.exceptions import PermissionDenied
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -94,10 +95,8 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
         new_assignee = request.user
         if new_assignee in update_task.assignees.all():
             update_task.assignees.remove(new_assignee)
-            update_task.save()
         else:
             update_task.assignees.add(new_assignee)
-            update_task.save()
         return redirect("manager:task-detail", pk=update_task.pk)
 
 
@@ -131,10 +130,20 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
 
-# add manager permission to worker?
-# different update for manager and for worker
-# worker to be able to update only themselves
-# manager being able to update all workers
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["worker_is_manager"] = self.object.groups.filter(name="Manager").exists()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if request.user.has_perm("workers.add_worker"):
+            update_worker = self.get_object()
+            manager_group = get_object_or_404(Group, name="Manager")
+            if manager_group in update_worker.groups.all():
+                update_worker.groups.remove(manager_group)
+            else:
+                update_worker.groups.add(manager_group)
+            return redirect("manager:worker-detail", pk=update_worker.pk)
 
 
 class WorkerCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):

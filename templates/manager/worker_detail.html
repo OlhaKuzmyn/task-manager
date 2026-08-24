@@ -2,7 +2,7 @@
 
 {% block content %}
   <h1>{{ worker.first_name }} {{ worker.last_name }}</h1>
-<!--  <p>{{ worker.is_manager|yesno:"Manager," }}</p>-->
+  <p><strong>{{ worker_is_manager|yesno:"Manager," }}</strong></p>
   <p>Email: {{ worker.email }}</p>
   <p>Position: {{ worker.position.name }}</p>
   <p>Team: {{ worker.team.name }}</p>
@@ -15,6 +15,21 @@
     {% empty %}
       <p>No tasks assigned.</p>
     {% endfor %}
+
+  {% if perms.worker.add_worker %}
+    {% if worker_is_manager %}
+      <form action="" method="post">
+        {% csrf_token %}
+      <input type="submit" value="Remove from managers" class="btn btn-danger">
+    </form>
+    {% else %}
+      <form action="" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Make manager" class="btn btn-success">
+      </form>
+    {% endif %}
+  {% endif %}
+
   {% if user.id == worker.id or perms.worker.add_worker %}
     <a href="{% url 'manager:worker-update' pk=worker.id %}" class="btn btn-secondary">Edit worker</a>
   {% endif %}
