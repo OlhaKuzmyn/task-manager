@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
-from manager.forms import TaskSearchForm, TaskForm, WorkerCreationForm, WorkerUpdateForm
+from manager.forms import TaskSearchForm, TaskForm, WorkerCreationForm, WorkerUpdateForm, TeamUpdateForm
 from manager.models import Task, Project, Team, Worker, Position, TaskType
 
 
@@ -275,8 +275,7 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
 
 class TeamDetailView(LoginRequiredMixin, generic.DetailView):
     model = Team
-# add worker to a team through team view or user view
-# or create separate forms and views and/or forms for manager user edit and regular user edit
+
 
 class TeamCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = Team
@@ -289,7 +288,7 @@ class TeamCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Create
 
 class TeamUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Team
-    fields = "__all__"
+    form_class = TeamUpdateForm
     permission_required = "teams.change_team"
 
     def get_success_url(self):

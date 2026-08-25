@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 
-from manager.models import Task, TaskType, Project
+from manager.models import Task, TaskType, Project, Team
 
 
 class TaskSearchForm(forms.Form):
@@ -85,3 +85,14 @@ class WorkerUpdateForm(UserChangeForm):
         fields = (
             "username", "first_name", "last_name", "email", "position", "team",
         )
+
+
+class TeamUpdateForm(forms.ModelForm):
+    workers = forms.ModelMultipleChoiceField(
+        required=False,
+        queryset=get_user_model().objects.filter(team=None),
+        widget=forms.CheckboxSelectMultiple
+    )
+    class Meta:
+        model = Team
+        fields = ("name", "projects" , "workers",)
