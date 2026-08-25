@@ -3,6 +3,7 @@
 {% block content %}
   <h1>Positions</h1>
     {% if position_list %}
+      {% include "includes/search.html" %}
       <ul>
         {% for position in position_list %}
           <li>
