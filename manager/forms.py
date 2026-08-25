@@ -55,6 +55,11 @@ class TaskSearchForm(forms.Form):
 
 
 class TaskForm(forms.ModelForm):
+    assignees = forms.ModelMultipleChoiceField(
+        required=False,
+        queryset=get_user_model().objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
 
     class Meta:
         model = Task
