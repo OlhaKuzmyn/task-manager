@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-from manager.models import Task, TaskType, Project, Team
+from manager.models import Task, TaskType, Project, Team, Worker, Position
 
 
 class TaskSearchForm(forms.Form):
@@ -38,11 +38,13 @@ class TaskSearchForm(forms.Form):
     task_type = forms.ModelChoiceField(
         required=False,
         queryset=TaskType.objects.all(),
+        label="",
         empty_label="All task types",
     )
     project = forms.ModelChoiceField(
         required=False,
         queryset=Project.objects.all(),
+        label="",
         empty_label="All projects",
     )
     no_assignees = forms.BooleanField(
@@ -100,3 +102,26 @@ class TeamUpdateForm(forms.ModelForm):
     class Meta:
         model = Team
         fields = ("name", "projects" , "workers",)
+
+
+class WorkerSearchForm(forms.Form):
+    last_name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "placeholder": "Search by last name",
+        })
+    )
+    position = forms.ModelChoiceField(
+        required=False,
+        queryset=Position.objects.all(),
+        label="",
+        empty_label="All positions",
+    )
+    team = forms.ModelChoiceField(
+        required=False,
+        queryset=Team.objects.all(),
+        label="",
+        empty_label="All teams",
+    )

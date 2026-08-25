@@ -1,16 +1,14 @@
-from multiprocessing.pool import worker
-
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import Group
 from django.contrib.auth.views import PasswordChangeView
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
-from manager.forms import TaskSearchForm, TaskForm, WorkerCreationForm, WorkerUpdateForm, TeamUpdateForm
+from manager.forms import TaskSearchForm, TaskForm, WorkerCreationForm, WorkerUpdateForm, TeamUpdateForm, \
+    WorkerSearchForm
 from manager.models import Task, Project, Team, Worker, Position, TaskType
 
 
@@ -123,9 +121,40 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class WorkerListView(LoginRequiredMixin, generic.ListView):
     model = Worker
-    queryset = Worker.objects.select_related("position")
     paginate_by = 5
 
+    def get_context_data(self, **kwargs):
+        context = super(WorkerListView, self).get_context_data(**kwargs)
+        last_name = self.request.GET.get("last_name", "")
+        position = self.request.GET.get("position", "")
+        team = self.request.GET.get("team", "")
+        context["search_form"] = WorkerSearchForm(
+            initial={
+                "last_name": last_name,
+                "position": position,
+                "team": team,
+            }
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Worker.objects.select_related("position")
+
+        form = WorkerSearchForm(self.request.GET)
+
+        if form.is_valid():
+            last_name = form.cleaned_data["last_name"]
+            position = form.cleaned_data["position"]
+            team = form.cleaned_data["team"]
+
+            if last_name:
+                queryset = queryset.filter(last_name__icontains=last_name)
+            if position:
+                queryset = queryset.filter(position__name=position)
+            if team:
+                queryset = queryset.filter(team__name=team)
+
+        return queryset
 
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker

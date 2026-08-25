@@ -6,6 +6,7 @@
       <a href="{% url 'manager:worker-create' %}" class="btn btn-primary">Add worker</a>
     {% endif %}
     {% if worker_list %}
+      {% include "includes/search.html" %}
       <ul>
         {% for worker in worker_list %}
           <li>
