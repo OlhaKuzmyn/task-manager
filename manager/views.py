@@ -7,8 +7,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
-from manager.forms import TaskSearchForm, TaskForm, WorkerCreationForm, WorkerUpdateForm, TeamUpdateForm, \
-    WorkerSearchForm, PositionSearchForm
+from manager.forms import (
+    TaskSearchForm,
+    TaskForm,
+    WorkerCreationForm,
+    WorkerUpdateForm,
+    # TeamUpdateForm,
+    WorkerSearchForm,
+    PositionSearchForm
+)
 from manager.models import Task, Project, Team, Worker, Position, TaskType
 
 
@@ -42,6 +49,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         priority = self.request.GET.get("priority", "")
         task_type = self.request.GET.get("task_type", "")
         project = self.request.GET.get("project", "")
+        no_assignees = self.request.GET.get("no_assignees", False)
         context["search_form"] = TaskSearchForm(
             initial={
                 "name": name,
@@ -50,6 +58,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
                 "priority": priority,
                 "task_type": task_type,
                 "project": project,
+                "no_assignees": no_assignees,
             }
         )
         return context
@@ -336,7 +345,8 @@ class TeamCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Create
 
 class TeamUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Team
-    form_class = TeamUpdateForm
+    fields = "__all__"
+    # form_class = TeamUpdateForm
     permission_required = "teams.change_team"
 
     def get_success_url(self):
