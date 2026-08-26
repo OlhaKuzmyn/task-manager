@@ -3,6 +3,7 @@
 {% block content %}
   <h1>Teams</h1>
     {% if team_list %}
+      {% include "includes/search.html" %}
       <ul>
         {% for team in team_list %}
           <li>

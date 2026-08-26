@@ -128,6 +128,17 @@ class WorkerSearchForm(forms.Form):
     )
 
 
+class TaskTypeSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "placeholder": "Search by name",
+        })
+    )
+
+
 class PositionSearchForm(forms.Form):
     name = forms.CharField(
         max_length=255,
@@ -136,4 +147,29 @@ class PositionSearchForm(forms.Form):
         widget=forms.TextInput(attrs={
             "placeholder": "Search by name",
         })
+    )
+
+
+class TeamSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "placeholder": "Search by name",
+        })
+    )
+    projects = forms.ModelMultipleChoiceField(
+        required=False,
+        queryset=Project.objects.all(),
+        label="",
+        # empty_label="All projects",
+        # choices=[("", "All projects")] + Project.objects.all,
+        widget=forms.CheckboxSelectMultiple
+    )
+    no_team_members = forms.BooleanField(
+        initial=False,
+        required=False,
+        label="No workers",
+        widget=forms.CheckboxInput()
     )

@@ -14,7 +14,9 @@ from manager.forms import (
     WorkerUpdateForm,
     # TeamUpdateForm,
     WorkerSearchForm,
-    PositionSearchForm
+    PositionSearchForm,
+    TeamSearchForm,
+    TaskTypeSearchForm
 )
 from manager.models import Task, Project, Team, Worker, Position, TaskType
 
@@ -304,6 +306,26 @@ class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     template_name = "manager/task_type_list.html"
     context_object_name = "task_type_list"
 
+    def get_context_data(self, **kwargs):
+        context = super(TaskTypeListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = TaskTypeSearchForm(
+            initial={
+                "name": name,
+            }
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Position.objects.all()
+        form = TaskTypeSearchForm(self.request.GET)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+        return queryset
+
+
 class TaskTypeCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = TaskType
     fields = "__all__"
@@ -328,6 +350,39 @@ class TaskTypeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.De
 class TeamListView(LoginRequiredMixin, generic.ListView):
     model = Team
     paginate_by = 5
+
+    def get_context_data(self, **kwargs):
+        context = super(TeamListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        projects = self.request.GET.get("projects", "")
+        no_team_members = self.request.GET.get("no_team_members", False)
+        context["search_form"] = TeamSearchForm(
+            initial={
+                "name": name,
+                "projects": projects,
+                "no_team_members": no_team_members,
+            }
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Team.objects.all()
+        form = TeamSearchForm(self.request.GET)
+
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            projects = form.cleaned_data["projects"]
+            no_team_members = form.cleaned_data["no_team_members"]
+
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+            if projects:
+                for project in projects:
+                    queryset = queryset.filter(projects__name=project.name)
+            if no_team_members:
+                queryset = queryset.filter(worker=None)
+
+        return queryset
 
 
 class TeamDetailView(LoginRequiredMixin, generic.DetailView):
