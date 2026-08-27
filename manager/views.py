@@ -12,11 +12,11 @@ from manager.forms import (
     TaskForm,
     WorkerCreationForm,
     WorkerUpdateForm,
-    # TeamUpdateForm,
     WorkerSearchForm,
     PositionSearchForm,
     TeamSearchForm,
-    TaskTypeSearchForm
+    TaskTypeSearchForm,
+    TeamForm
 )
 from manager.models import Task, Project, Team, Worker, Position, TaskType
 
@@ -391,7 +391,7 @@ class TeamDetailView(LoginRequiredMixin, generic.DetailView):
 
 class TeamCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = Team
-    fields = "__all__"
+    form_class = TeamForm
     permission_required = "teams.add_team"
 
     def get_success_url(self):
@@ -400,8 +400,7 @@ class TeamCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Create
 
 class TeamUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Team
-    fields = "__all__"
-    # form_class = TeamUpdateForm
+    form_class = TeamForm
     permission_required = "teams.change_team"
 
     def get_success_url(self):
@@ -412,4 +411,3 @@ class TeamDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.Delete
     model = Team
     permission_required = "teams.delete_team"
     success_url = reverse_lazy("manager:team-list")
-

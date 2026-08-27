@@ -93,16 +93,15 @@ class WorkerUpdateForm(UserChangeForm):
         )
 
 
-# class TeamUpdateForm(forms.ModelForm):
-#     workers = forms.ModelMultipleChoiceField(
-#         required=False,
-#         queryset=get_user_model().objects.filter(team=None),
-#         # queryset=get_user_model().objects.all(),
-#         widget=forms.CheckboxSelectMultiple
-#     )
-#     class Meta:
-#         model = Team
-#         fields = ("name", "projects" , "workers",)
+class TeamForm(forms.ModelForm):
+    projects = forms.ModelMultipleChoiceField(
+        required=False,
+        queryset=Project.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+    class Meta:
+        model = Team
+        fields = ("name", "projects", )
 
 
 class WorkerSearchForm(forms.Form):
