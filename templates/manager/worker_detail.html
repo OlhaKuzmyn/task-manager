@@ -2,7 +2,9 @@
 
 {% block content %}
   <h1>{{ worker.first_name }} {{ worker.last_name }}</h1>
-  <p><strong>{{ worker_is_manager|yesno:"Manager," }}</strong></p>
+  {% if worker.is_manager %}
+    <p><strong>Manager</strong></p>
+  {% endif %}
   <p>Email: {{ worker.email }}</p>
   <p>Position: {{ worker.position.name }}</p>
   <p>Team: {{ worker.team.name }}</p>
@@ -17,7 +19,7 @@
     {% endfor %}
 
   {% if perms.worker.add_worker %}
-    {% if worker_is_manager %}
+    {% if worker.is_manager %}
       <form action="" method="post">
         {% csrf_token %}
       <input type="submit" value="Remove from managers" class="btn btn-danger">

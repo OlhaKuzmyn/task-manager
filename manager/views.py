@@ -170,18 +170,17 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["worker_is_manager"] = self.object.groups.filter(name="Manager").exists()
-        return context
-
     def post(self, request, *args, **kwargs):
         if request.user.has_perm("workers.add_worker"):
             update_worker = self.get_object()
             manager_group = get_object_or_404(Group, name="Manager")
             if manager_group in update_worker.groups.all():
                 update_worker.groups.remove(manager_group)
+                update_worker.is_manager = False
+                update_worker.save()
             else:
+                update_worker.is_manager = True
+                update_worker.save()
                 update_worker.groups.add(manager_group)
             return redirect("manager:worker-detail", pk=update_worker.pk)
 
