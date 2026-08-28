@@ -6,6 +6,12 @@ from manager.models import Task, TaskType, Project, Team, Worker, Position
 
 
 class TaskSearchForm(forms.Form):
+    team_filter = forms.BooleanField(
+        required=False,
+        initial=False,
+        label="All Tasks",
+        widget=forms.CheckboxInput()
+    )
     name = forms.CharField(
         max_length=255,
         required=False,

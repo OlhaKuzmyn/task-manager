@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.models import Group
 from django.contrib.auth.views import PasswordChangeView
 from django.core.exceptions import PermissionDenied
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
@@ -45,6 +46,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(TaskListView, self).get_context_data(**kwargs)
+        team_filter = self.request.GET.get("user_team_filter", False)
         name = self.request.GET.get("name", "")
         deadline = self.request.GET.get("deadline", "")
         is_completed = self.request.GET.get("is_completed", False)
@@ -54,6 +56,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         no_assignees = self.request.GET.get("no_assignees", False)
         context["search_form"] = TaskSearchForm(
             initial={
+                "team_filter": team_filter,
                 "name": name,
                 "is_completed": is_completed,
                 "deadline": deadline,
@@ -66,18 +69,23 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        queryset = Task.objects.select_related("project")
+        user_team_projects = Team.objects.get(worker__id=self.request.user.id).projects.all()
+        # queryset = Task.objects.filter(Q(project__in=user_team_projects) & Q(is_completed=False)).select_related("project")
+        queryset = Task.objects.filter(project__in=user_team_projects).select_related("project")
         form = TaskSearchForm(self.request.GET)
 
         if form.is_valid():
-            deadline = form.cleaned_data.get("deadline")
+            team_filter = form.cleaned_data["team_filter"]
+            deadline = form.cleaned_data["deadline"]
             priority = form.cleaned_data["priority"]
             task_type = form.cleaned_data["task_type"]
             project = form.cleaned_data["project"]
             name = form.cleaned_data["name"]
             is_completed = form.cleaned_data["is_completed"]
             no_assignees = form.cleaned_data["no_assignees"]
-
+            if team_filter:
+                queryset = Task.objects.all()
+                # queryset = Task.objects.filter(is_completed=False).select_related("project")
             if name:
                 queryset = queryset.filter(name__icontains=name)
             if is_completed:
