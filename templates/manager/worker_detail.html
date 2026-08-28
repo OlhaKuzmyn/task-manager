@@ -7,12 +7,14 @@
   {% endif %}
   <p>Email: {{ worker.email }}</p>
   <p>Position: {{ worker.position.name }}</p>
-  <p>Team: {{ worker.team.name }}</p>
-  <p>Tasks:</p>
+  <p>Team: <a href="{% url 'manager:team-detail' pk=worker.team.id %}">{{ worker.team.name }}</a></p>
+  <p><strong>{% if user.id == worker.id %} My Tasks: {% else %} Tasks: {% endif %}</strong></p>
     {% for task in worker.tasks.all %}
       <hr>
       <p>
-        {{ task.name }}
+        <a href="{% url 'manager:task-detail' pk=task.id %}">
+          {{ task.name }}
+        </a>
       </p>
     {% empty %}
       <p>No tasks assigned.</p>
