@@ -166,6 +166,23 @@ class PositionSearchForm(forms.Form):
     )
 
 
+class ProjectSearchForm(forms.Form):
+    name = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={
+            "placeholder": "Search by name",
+        })
+    )
+    no_tasks = forms.BooleanField(
+        initial=False,
+        required=False,
+        label="No tasks",
+        widget=forms.CheckboxInput()
+    )
+
+
 class TeamSearchForm(forms.Form):
     name = forms.CharField(
         max_length=255,
@@ -179,9 +196,13 @@ class TeamSearchForm(forms.Form):
         required=False,
         queryset=Project.objects.all(),
         label="",
-        # empty_label="All projects",
-        # choices=[("", "All projects")] + Project.objects.all,
         widget=forms.CheckboxSelectMultiple
+    )
+    no_projects = forms.BooleanField(
+        initial=False,
+        required=False,
+        label="No projects",
+        widget=forms.CheckboxInput()
     )
     no_team_members = forms.BooleanField(
         initial=False,

@@ -4,6 +4,7 @@
   <h1>Positions</h1>
     {% if position_list %}
       {% include "includes/search.html" %}
+      <a href="{% url 'manager:position-list' %}" class="btn btn-secondary">Reset</a>
       <ul>
         {% for position in position_list %}
           <li>

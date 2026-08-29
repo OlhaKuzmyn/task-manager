@@ -3,6 +3,8 @@
 {% block content %}
   <h1>Projects</h1>
     {% if project_list %}
+      {% include "includes/search.html" %}
+      <a href="{% url 'manager:project-list' %}" class="btn btn-secondary">Reset</a>
       <ul>
         {% for project in project_list %}
           <li>

@@ -17,7 +17,8 @@ from manager.forms import (
     PositionSearchForm,
     TeamSearchForm,
     TaskTypeSearchForm,
-    TeamForm
+    TeamForm,
+    ProjectSearchForm
 )
 from manager.models import Task, Project, Team, Worker, Position, TaskType
 
@@ -234,6 +235,29 @@ class ProjectListView(LoginRequiredMixin, generic.ListView):
     model = Project
     paginate_by = 5
 
+    def get_context_data(self, **kwargs):
+        context = super(ProjectListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        no_tasks = self.request.GET.get("no_tasks", False)
+        context["search_form"] = ProjectSearchForm(
+            initial={
+                "name": name,
+                "no_tasks": no_tasks,
+            }
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = Project.objects.all()
+        form = ProjectSearchForm(self.request.GET)
+        if form.is_valid():
+            name = form.cleaned_data["name"]
+            if name:
+                queryset = queryset.filter(name__icontains=name)
+            if form.cleaned_data["no_tasks"]:
+                queryset = queryset.filter(task__isnull=True)
+        return queryset
+
 
 class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
     model = Project
@@ -361,11 +385,13 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
         name = self.request.GET.get("name", "")
         projects = self.request.GET.get("projects", "")
         no_team_members = self.request.GET.get("no_team_members", False)
+        no_projects = self.request.GET.get("no_projects", False)
         context["search_form"] = TeamSearchForm(
             initial={
                 "name": name,
                 "projects": projects,
                 "no_team_members": no_team_members,
+                "no_projects": no_projects
             }
         )
         return context
@@ -378,6 +404,7 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
             name = form.cleaned_data["name"]
             projects = form.cleaned_data["projects"]
             no_team_members = form.cleaned_data["no_team_members"]
+            no_projects = form.cleaned_data["no_projects"]
 
             if name:
                 queryset = queryset.filter(name__icontains=name)
@@ -386,6 +413,8 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
                     queryset = queryset.filter(projects__name=project.name)
             if no_team_members:
                 queryset = queryset.filter(worker=None)
+            if no_projects:
+                queryset = queryset.filter(projects__isnull=True)
 
         return queryset
 

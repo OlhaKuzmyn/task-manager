@@ -4,6 +4,7 @@
   <h1>Teams</h1>
     {% if team_list %}
       {% include "includes/search.html" %}
+      <a href="{% url 'manager:team-list' %}" class="btn btn-secondary">Reset</a>
       <ul>
         {% for team in team_list %}
           <li>

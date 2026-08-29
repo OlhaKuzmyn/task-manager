@@ -4,6 +4,7 @@
   <h1>Tasks</h1>
     {% if task_list %}
     {% include "includes/search.html" %}
+    <a href="{% url 'manager:task-list' %}" class="btn btn-secondary">Reset</a>
     <a href="{% url 'manager:task-create' %}" class="btn btn-primary">
       Add a new task
     </a>
