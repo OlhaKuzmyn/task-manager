@@ -6,10 +6,21 @@ from manager.models import Task, TaskType, Project, Team, Worker, Position
 
 
 class TaskSearchForm(forms.Form):
-    team_filter = forms.BooleanField(
+    FILTER_CHOICES = [
+        ("mine", "My tasks"),
+        ("mine_and_team", "My and team tasks"),
+        ("team", "Team tasks"),
+        ("all", "All tasks"),
+    ]
+    filter_select = forms.ChoiceField(
+        choices=FILTER_CHOICES,
         required=False,
-        initial=False,
-        label="All Tasks",
+        widget=forms.RadioSelect,
+    )
+    assigned_to_me = forms.BooleanField(
+        required=False,
+        initial=True,
+        label="Assigned to me",
         widget=forms.CheckboxInput()
     )
     name = forms.CharField(

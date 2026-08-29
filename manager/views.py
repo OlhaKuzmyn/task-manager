@@ -46,36 +46,21 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super(TaskListView, self).get_context_data(**kwargs)
-        team_filter = self.request.GET.get("user_team_filter", False)
-        name = self.request.GET.get("name", "")
-        deadline = self.request.GET.get("deadline", "")
-        is_completed = self.request.GET.get("is_completed", False)
-        priority = self.request.GET.get("priority", "")
-        task_type = self.request.GET.get("task_type", "")
-        project = self.request.GET.get("project", "")
-        no_assignees = self.request.GET.get("no_assignees", False)
         context["search_form"] = TaskSearchForm(
-            initial={
-                "team_filter": team_filter,
-                "name": name,
-                "is_completed": is_completed,
-                "deadline": deadline,
-                "priority": priority,
-                "task_type": task_type,
-                "project": project,
-                "no_assignees": no_assignees,
-            }
+            self.request.GET or {"filter_select": "mine_and_team"}
         )
         return context
 
     def get_queryset(self):
         user_team_projects = Team.objects.get(worker__id=self.request.user.id).projects.all()
-        # queryset = Task.objects.filter(Q(project__in=user_team_projects) & Q(is_completed=False)).select_related("project")
-        queryset = Task.objects.filter(project__in=user_team_projects).select_related("project")
         form = TaskSearchForm(self.request.GET)
 
+        filter_select = "mine_and_team"
+        is_completed = no_assignees = False
+        name = deadline = priority = task_type = project = None
+
         if form.is_valid():
-            team_filter = form.cleaned_data["team_filter"]
+            filter_select = form.cleaned_data["filter_select"] or "mine_and_team"
             deadline = form.cleaned_data["deadline"]
             priority = form.cleaned_data["priority"]
             task_type = form.cleaned_data["task_type"]
@@ -83,23 +68,36 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
             name = form.cleaned_data["name"]
             is_completed = form.cleaned_data["is_completed"]
             no_assignees = form.cleaned_data["no_assignees"]
-            if team_filter:
-                queryset = Task.objects.all()
-                # queryset = Task.objects.filter(is_completed=False).select_related("project")
-            if name:
-                queryset = queryset.filter(name__icontains=name)
-            if is_completed:
-                queryset = queryset.filter(is_completed=is_completed)
-            if deadline:
-                queryset = queryset.filter(deadline__lte=deadline)
-            if priority:
-                queryset = queryset.filter(priority=priority)
-            if task_type:
-                queryset = queryset.filter(task_type__name=task_type)
-            if project:
-                queryset = queryset.filter(project__name=project)
-            if no_assignees:
-                queryset = queryset.filter(assignees=None)
+
+
+        if filter_select == "all":
+            queryset = Task.objects.all()
+        elif filter_select == "mine":
+            queryset = Task.objects.filter(assignees=self.request.user)
+        elif filter_select == "team":
+            queryset = Task.objects.filter(Q(project__in=user_team_projects))
+        else:
+            queryset = Task.objects.filter(Q(project__in=user_team_projects) | Q(assignees=self.request.user))
+
+        queryset = queryset.select_related("project").distinct()
+
+        if is_completed:
+            queryset = queryset.filter(is_completed=True)
+        else:
+            queryset = queryset.filter(is_completed=False)
+
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        if deadline:
+            queryset = queryset.filter(deadline__lte=deadline)
+        if priority:
+            queryset = queryset.filter(priority=priority)
+        if task_type:
+            queryset = queryset.filter(task_type__name=task_type)
+        if project:
+            queryset = queryset.filter(project__name=project)
+        if no_assignees:
+            queryset = queryset.filter(assignees=None)
 
         return queryset
 
