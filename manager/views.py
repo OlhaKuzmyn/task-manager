@@ -53,7 +53,8 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        user_team_projects = Team.objects.get(worker__id=self.request.user.id).projects.all()
+        if self.request.user.team:
+            user_team_projects = Team.objects.get(worker__id=self.request.user.id).projects.all()
         form = TaskSearchForm(self.request.GET)
 
         filter_select = "mine_and_team"
@@ -73,12 +74,12 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
         if filter_select == "all":
             queryset = Task.objects.all()
-        elif filter_select == "mine":
-            queryset = Task.objects.filter(assignees=self.request.user)
-        elif filter_select == "team":
+        elif filter_select == "mine_and_team" and self.request.user.team:
+            queryset = Task.objects.filter(Q(project__in=user_team_projects) | Q(assignees=self.request.user))
+        elif filter_select == "team" and self.request.user.team:
             queryset = Task.objects.filter(Q(project__in=user_team_projects))
         else:
-            queryset = Task.objects.filter(Q(project__in=user_team_projects) | Q(assignees=self.request.user))
+            queryset = Task.objects.filter(assignees=self.request.user)
 
         queryset = queryset.select_related("project").distinct()
 

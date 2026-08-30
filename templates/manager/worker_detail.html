@@ -7,7 +7,14 @@
   {% endif %}
   <p>Email: {{ worker.email }}</p>
   <p>Position: {{ worker.position.name }}</p>
-  <p>Team: <a href="{% url 'manager:team-detail' pk=worker.team.id %}">{{ worker.team.name }}</a></p>
+
+    <p>
+      {% if worker.team %}
+        Team: <a href="{% url 'manager:team-detail' pk=worker.team.id %}">{{ worker.team.name }}</a>
+      {% else %}
+        No Team
+      {% endif %}
+    </p>
   <p><strong>{% if user.id == worker.id %} My Tasks: {% else %} Tasks: {% endif %}</strong></p>
     {% for task in worker.tasks.all %}
       <hr>
@@ -43,6 +50,4 @@
   {% if perms.worker.delete_worker %}
     <a href="{% url 'manager:worker-delete' pk=worker.id %}" class="btn btn-danger">Delete worker</a>
   {% endif %}
-
-
 {% endblock %}

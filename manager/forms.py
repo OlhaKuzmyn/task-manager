@@ -15,6 +15,7 @@ class TaskSearchForm(forms.Form):
     filter_select = forms.ChoiceField(
         choices=FILTER_CHOICES,
         required=False,
+        label="Filter",
         widget=forms.RadioSelect,
     )
     assigned_to_me = forms.BooleanField(
