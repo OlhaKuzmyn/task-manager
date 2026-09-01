@@ -2,7 +2,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.urls import reverse_lazy
 from django.views import generic
 
-from apps.position.models import Position
 from apps.task_type.forms import TaskTypeSearchForm
 from apps.task_type.models import TaskType
 
@@ -36,19 +35,19 @@ class TaskTypeListView(LoginRequiredMixin, generic.ListView):
 class TaskTypeCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = TaskType
     fields = "__all__"
-    permission_required = "tasktype.add_tasktype"
+    permission_required = "task_type.add_tasktype"
     template_name = "task_type/task_type_form.html"
     success_url = reverse_lazy("task_type:task-type-list")
 
 class TaskTypeUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = TaskType
     fields = "__all__"
-    permission_required = "tasktype.change_tasktype"
+    permission_required = "task_type.change_tasktype"
     template_name = "task_type/task_type_form.html"
     success_url = reverse_lazy("task_type:task-type-list")
 
 class TaskTypeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
     model = TaskType
-    permission_required = "tasktype.delete_tasktype"
+    permission_required = "task_type.delete_tasktype"
     template_name = "task_type/task_type_confirm_delete.html"
     success_url = reverse_lazy("task_type:task-type-list")
