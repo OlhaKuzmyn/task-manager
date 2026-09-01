@@ -27,7 +27,7 @@
       <p>No tasks assigned.</p>
     {% endfor %}
 
-  {% if perms.worker.add_worker %}
+  {% if perms.worker.change_worker %}
     {% if worker.is_manager %}
       <form action="" method="post">
         {% csrf_token %}
@@ -41,7 +41,7 @@
     {% endif %}
   {% endif %}
 
-  {% if user.id == worker.id or perms.worker.add_worker %}
+  {% if user.id == worker.id or perms.worker.change_worker %}
     <a href="{% url 'worker:worker-update' pk=worker.id %}" class="btn btn-secondary">Edit worker</a>
   {% endif %}
   {% if user.id == worker.id %}

@@ -84,7 +84,7 @@ class WorkerUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateVi
         update_user = self.get_object()
         return (
             self.request.user == update_user
-            or self.request.user.has_perm("worker.add_worker")
+            or self.request.user.has_perm("worker.change_worker")
         )
 
     def handle_no_permission(self):
