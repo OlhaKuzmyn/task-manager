@@ -4,6 +4,7 @@ from django.db import migrations
 
 
 def create_manager_group(apps, schema_editor):
+    """function to create manager group with migration"""
     group = apps.get_model("auth", "Group")
     permission = apps.get_model("auth", "Permission")
 
