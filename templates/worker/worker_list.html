@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Workers</h1>
+    {% if perms.workers.add_worker %}
+      <a href="{% url 'worker:worker-create' %}" class="btn btn-primary">Add worker</a>
+    {% endif %}
+    {% if worker_list %}
+      {% include "includes/search.html" %}
+      <a href="{% url 'worker:worker-list' %}" class="btn btn-secondary">Reset</a>
+      <ul>
+        {% for worker in worker_list %}
+          <li>
+            <a href="{% url 'worker:worker-detail' pk=worker.id %}">
+              Worker name: {{ worker.first_name }} {{ worker.last_name }}
+              Position: {{ worker.position.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+    <p>No workers found.</p>
+    {% endif %}
+{% endblock %}

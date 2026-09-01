@@ -40,7 +40,14 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "crispy_bootstrap4",
     "crispy_forms",
-    "manager",
+    "apps.manager",
+    "apps.position",
+    "apps.project",
+    "apps.task",
+    "apps.team",
+    "apps.task_type",
+    "apps.worker",
+    "apps.core",
 ]
 
 MIDDLEWARE = [
@@ -105,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "manager.Worker"
+AUTH_USER_MODEL = "worker.Worker"
 
 LOGIN_REDIRECT_URL = "/"
 

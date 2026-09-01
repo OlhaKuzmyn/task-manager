@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Teams</h1>
+    {% if team_list %}
+      {% include "includes/search.html" %}
+      <a href="{% url 'team:team-list' %}" class="btn btn-secondary">Reset</a>
+      <ul>
+        {% for team in team_list %}
+          <li>
+            <a href="{% url 'team:team-detail' pk=team.id %}">
+              {{ team.name }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+    <p>No teams found.</p>
+    {% endif %}
+    {% if perms.team.add_team %}
+        <a href="{% url 'team:team-create' %}" class="btn btn-primary">Add team</a>
+    {% endif %}
+{% endblock %}
