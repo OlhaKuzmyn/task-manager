@@ -1,23 +1,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Teams</h1>
-    {% if team_list %}
-      {% include "includes/search.html" %}
-      <a href="{% url 'team:team-list' %}" class="btn btn-secondary">Reset</a>
-      <ul>
-        {% for team in team_list %}
-          <li>
-            <a href="{% url 'team:team-detail' pk=team.id %}">
-              {{ team.name }}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-    <p>No teams found.</p>
-    {% endif %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Teams</h1>
     {% if perms.team.add_team %}
         <a href="{% url 'team:team-create' %}" class="btn btn-primary">Add team</a>
     {% endif %}
+  </div>
+
+  <div class="row">
+    <div class="col-md-9">
+      {% if team_list %}
+        <div class="card-deck" style="flex-direction: column;">
+          {% for team in team_list %}
+            <div class="card mb-3">
+              <a href="{% url 'team:team-detail' pk=team.id %}" class="text-decoration-none text-dark">
+                <div class="card-body">
+                  <h5 class="card-title">{{ team.name }}</h5>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No teams found.</p>
+      {% endif %}
+    </div>
+    <div class="col-md-3">
+      {% include "includes/search.html" %}
+      <a href="{% url 'team:team-list' %}" class="btn btn-secondary btn-block mt-2">Reset</a>
+    </div>
+  </div>
 {% endblock %}
