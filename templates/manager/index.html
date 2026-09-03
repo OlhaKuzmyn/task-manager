@@ -1,13 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Task Manager</h1>
-  <p>Welcome to the most versatile tool for managing your work tasks</p>
-  <p>Currently, we have:</p>
-  <ul>
-    <li>Available tasks: {{ num_tasks_not_completed }}</li>
-    <li>Active projects: {{ num_projects }}</li>
-    <li>Teams: {{ num_teams }}</li>
-    <li>Workers: {{ num_workers }}</li>
-  </ul>
+  <div class="d-flex justify-content-center" style="flex-direction: column; align-items: center;">
+    <div>
+      <h1>Task Manager</h1>
+    </div>
+    <div>
+      <p>Welcome to the most versatile tool for managing your work tasks</p>
+    </div>
+    <br>
+      <div><p>Available tasks: <strong>{{ num_tasks_not_completed }}</strong></p></div>
+      <div><p>Active projects: <strong>{{ num_projects }}</strong></p></div>
+      <div><p>Teams: <strong>{{ num_teams }}</strong></p></div>
+      <div><p>Workers: <strong>{{ num_workers }}</strong></p></div>
+  </div>
 {% endblock %}
