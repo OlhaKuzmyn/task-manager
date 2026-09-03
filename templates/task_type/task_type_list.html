@@ -1,27 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Task Types</h1>
-    {% if task_type_list %}
-      {% include "includes/search.html" %}
-      <a href="{% url 'task_type:task-type-list' %}" class="btn btn-secondary">Reset</a>
-      <ul>
-        {% for task_type in task_type_list %}
-          <li>
-            {{ task_type.name }}
-            {% if perms.task_type.change_tasktype %}
-              <a href="{% url 'task_type:task-type-update' pk=task_type.id %}" class="btn btn-secondary">Edit task type</a>
-            {% endif %}
-            {% if perms.task_type.delete_tasktype %}
-              <a href="{% url 'task_type:task-type-delete' pk=task_type.id %}" class="btn btn-danger">Delete task type</a>
-            {% endif %}
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-    <p>No Task Types found.</p>
-    {% endif %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Task Types</h1>
     {% if perms.task_type.add_tasktype %}
         <a href="{% url 'task_type:task-type-create' %}" class="btn btn-primary">Add task type</a>
     {% endif %}
+  </div>
+
+  <div class="row">
+    <div class="col-md-9">
+      {% if task_type_list %}
+        <div class="card-deck" style="flex-direction: column;">
+          {% for task_type in task_type_list %}
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">{{ task_type.name }}</h5>
+                {% if perms.task_type.change_tasktype %}
+                  <a href="{% url 'task_type:task-type-update' pk=task_type.id %}" class="btn btn-secondary">Edit task type</a>
+                {% endif %}
+                {% if perms.task_type.delete_tasktype %}
+                  <a href="{% url 'task_type:task-type-delete' pk=task_type.id %}" class="btn btn-danger">Delete task type</a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+      <p>No Task Types found.</p>
+      {% endif %}
+    </div>
+    <div class="col-md-3">
+      {% include "includes/search.html" %}
+      <a href="{% url 'task_type:task-type-list' %}" class="btn btn-secondary btn-block mt-2">Reset</a>
+    </div>
+  </div>
 {% endblock %}
