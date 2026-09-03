@@ -17,3 +17,8 @@
     background-color: #28a745; /* green */
     color: #fff;
 }
+
+.on-hover:hover {
+    background-color: lightskyblue;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+}

@@ -13,7 +13,7 @@
       {% if worker_list %}
         <div class="card-deck" style="flex-direction: column;">
           {% for worker in worker_list %}
-            <div class="card mb-3">
+            <div class="card mb-3 on-hover">
               <a href="{% url 'worker:worker-detail' pk=worker.id %}" class="text-decoration-none text-dark">
                 <div class="card-body">
                   <h5 class="card-title">{{ worker.first_name }} {{ worker.last_name }}</h5>

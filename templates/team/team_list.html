@@ -13,7 +13,7 @@
       {% if team_list %}
         <div class="card-deck" style="flex-direction: column;">
           {% for team in team_list %}
-            <div class="card mb-3">
+            <div class="card mb-3 on-hover">
               <a href="{% url 'team:team-detail' pk=team.id %}" class="text-decoration-none text-dark">
                 <div class="card-body">
                   <h5 class="card-title">{{ team.name }}</h5>

@@ -13,7 +13,7 @@
       {% if project_list %}
         <div class="card-deck" style="flex-direction: column;">
           {% for project in project_list %}
-            <div class="card mb-3">
+            <div class="card mb-3 on-hover">
               <a href="{% url 'project:project-detail' pk=project.id %}" class="text-decoration-none text-dark">
                 <div class="card-body">
                   <h5 class="card-title">{{ project.name }}</h5>
