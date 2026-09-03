@@ -16,15 +16,12 @@
                 <div class="card-body">
                   <h5 class="card-title">{{ task.name }}</h5>
                   <p class="card-text mb-2">Project: {{ task.project.name }}</p>
-                  {% if task.priority == 0 %}
-                    <span class="badge priority-urgent">{{ task.get_priority_display }}</span>
-                  {% elif task.priority == 1 %}
-                    <span class="badge priority-high">{{ task.get_priority_display }}</span>
-                  {% elif task.priority == 2 %}
-                    <span class="badge priority-medium">{{ task.get_priority_display }}</span>
-                  {% else %}
-                    <span class="badge priority-low">{{ task.get_priority_display }}</span>
-                  {% endif %}
+                    <span class="badge
+                      {% if task.priority == 0 %} priority-urgent
+                      {% elif task.priority == 1 %} priority-high
+                      {% elif task.priority == 2 %} priority-medium
+                      {% else %} priority-low
+                      {% endif %}">{{ task.get_priority_display }}</span>
                 </div>
               </a>
             </div>
