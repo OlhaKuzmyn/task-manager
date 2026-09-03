@@ -1,0 +1,17 @@
+{% load crispy_forms_filters %}
+
+<div class="col-md-9">
+  <div class="card-deck" style="flex-direction: column;">
+        <div class="card mb-1">
+            <div class="card-body">
+              <div class="card-text">
+                <form action="" method="post">
+                  {% csrf_token %}
+                  <input type="submit" value="Yes" class="btn btn-danger btn-block mt-2">
+                </form>
+                {% include "includes/go_back_button.html" %}
+              </div>
+            </div>
+        </div>
+  </div>
+</div>
