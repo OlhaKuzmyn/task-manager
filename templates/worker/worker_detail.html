@@ -1,53 +1,93 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>{{ worker.first_name }} {{ worker.last_name }}</h1>
-  {% if worker.is_manager %}
-    <p><strong>Manager</strong></p>
-  {% endif %}
-  <p>Email: {{ worker.email }}</p>
-  <p>Position: {{ worker.position.name }}</p>
-
-    <p>
-      {% if worker.team %}
-        Team: <a href="{% url 'team:team-detail' pk=worker.team.id %}">{{ worker.team.name }}</a>
-      {% else %}
-        No Team
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>{{ worker.first_name }} {{ worker.last_name }}</h1>
+    <div class="d-flex justify-content-between align-items-center">
+      {% if perms.worker.change_worker %}
+        <div class="mx-5">
+          {% if worker.is_manager %}
+            <form action="" method="post">
+              {% csrf_token %}
+            <input type="submit" value="Remove from managers" class="btn btn-danger">
+          </form>
+          {% else %}
+            <form action="" method="post">
+              {% csrf_token %}
+              <input type="submit" value="Make manager" class="btn btn-success">
+            </form>
+          {% endif %}
+        </div>
       {% endif %}
-    </p>
-  <p><strong>{% if user.id == worker.id %} My Tasks: {% else %} Tasks: {% endif %}</strong></p>
-    {% for task in worker.tasks.all %}
-      <hr>
-      <p>
-        <a href="{% url 'task:task-detail' pk=task.id %}">
-          {{ task.name }}
-        </a>
-      </p>
-    {% empty %}
-      <p>No tasks assigned.</p>
-    {% endfor %}
+      <div>
+        {% if user.id == worker.id or perms.worker.change_worker %}
+          <a href="{% url 'worker:worker-update' pk=worker.id %}" class="btn btn-secondary">Edit worker</a>
+        {% endif %}
+        {% if user.id == worker.id %}
+          <a href="{% url 'password_change'%}" class="btn btn-secondary">Change password</a>
+        {% endif %}
+        {% if perms.worker.delete_worker %}
+          <a href="{% url 'worker:worker-delete' pk=worker.id %}" class="btn btn-danger">Delete worker</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 
-  {% if perms.worker.change_worker %}
-    {% if worker.is_manager %}
-      <form action="" method="post">
-        {% csrf_token %}
-      <input type="submit" value="Remove from managers" class="btn btn-danger">
-    </form>
-    {% else %}
-      <form action="" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Make manager" class="btn btn-success">
-      </form>
-    {% endif %}
-  {% endif %}
-
-  {% if user.id == worker.id or perms.worker.change_worker %}
-    <a href="{% url 'worker:worker-update' pk=worker.id %}" class="btn btn-secondary">Edit worker</a>
-  {% endif %}
-  {% if user.id == worker.id %}
-    <a href="{% url 'password_change'%}" class="btn btn-secondary">Change password</a>
-  {% endif %}
-  {% if perms.worker.delete_worker %}
-    <a href="{% url 'worker:worker-delete' pk=worker.id %}" class="btn btn-danger">Delete worker</a>
-  {% endif %}
+  <div class="col-md-9">
+    <div class="card-deck" style="flex-direction: column;">
+      <div class="card mb-1">
+        <div class="card-body">
+          <div class="card-title">
+            {% if worker.is_manager %}
+              <p><strong>Manager</strong></p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="card mb-1">
+        <div class="card-body">
+          <div class="card-title">
+            <p>Email: {{ worker.email }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-1">
+        <div class="card-body">
+          <div class="card-title">
+            <p>Position: {{ worker.position.name }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-1">
+        <div class="card-body">
+          <div class="card-title">
+            <p>
+              {% if worker.team %}
+                Team: <a href="{% url 'team:team-detail' pk=worker.team.id %}">{{ worker.team.name }}</a>
+              {% else %}
+                No Team
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-1">
+        <div class="card-body">
+          <div class="card-title">
+            <p><strong>{% if user.id == worker.id %} My Tasks: {% else %} Tasks: {% endif %}</strong></p>
+              {% for task in worker.tasks.all %}
+                <hr>
+                <p>
+                  <a href="{% url 'task:task-detail' pk=task.id %}">
+                    {{ task.name }}
+                  </a>
+                </p>
+              {% empty %}
+                <p>No tasks assigned.</p>
+              {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
