@@ -1,24 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Tasks</h1>
-    {% include "includes/search.html" %}
-    {% if task_list %}
-    <a href="{% url 'task:task-list' %}" class="btn btn-secondary">Reset</a>
-    <a href="{% url 'task:task-create' %}" class="btn btn-primary">
-      Add a new task
-    </a>
-      <ul>
-        {% for task in task_list %}
-          <li>
-            <a href="{% url 'task:task-detail' pk=task.id %}">
-              Task name: {{ task.name }}
-              Project name: {{ task.project.name }}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-    <p>No tasks found.</p>
-    {% endif %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Tasks</h1>
+    <a href="{% url 'task:task-create' %}" class="btn btn-primary">Add a new task</a>
+  </div>
+
+  <div class="row">
+    <div class="col-md-9">
+      {% if task_list %}
+        <div class="card-deck" style="flex-direction: column;">
+          {% for task in task_list %}
+            <div class="card mb-3">
+              <a href="{% url 'task:task-detail' pk=task.id %}" class="text-decoration-none text-dark">
+                <div class="card-body">
+                  <h5 class="card-title">{{ task.name }}</h5>
+                  <p class="card-text mb-2">Project: {{ task.project.name }}</p>
+                  {% if task.priority == 0 %}
+                    <span class="badge priority-urgent">{{ task.get_priority_display }}</span>
+                  {% elif task.priority == 1 %}
+                    <span class="badge priority-high">{{ task.get_priority_display }}</span>
+                  {% elif task.priority == 2 %}
+                    <span class="badge priority-medium">{{ task.get_priority_display }}</span>
+                  {% else %}
+                    <span class="badge priority-low">{{ task.get_priority_display }}</span>
+                  {% endif %}
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No tasks found.</p>
+      {% endif %}
+    </div>
+
+    <div class="col-md-3">
+      {% include "includes/search.html" %}
+      <a href="{% url 'task:task-list' %}" class="btn btn-secondary btn-block mt-2">Reset</a>
+    </div>
+  </div>
 {% endblock %}
