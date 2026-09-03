@@ -1,4 +1,8 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UserPassesTestMixin,
+)
 from django.contrib.auth.models import Group
 from django.contrib.auth.views import PasswordChangeView
 from django.core.exceptions import PermissionDenied
@@ -6,7 +10,11 @@ from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 
-from apps.worker.forms import WorkerUpdateForm, WorkerCreationForm, WorkerSearchForm
+from apps.worker.forms import (
+    WorkerUpdateForm,
+    WorkerCreationForm,
+    WorkerSearchForm
+)
 from apps.worker.models import Worker
 
 
@@ -47,6 +55,7 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 
         return queryset
 
+
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
 
@@ -65,13 +74,21 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
             return redirect("worker:worker-detail", pk=update_worker.pk)
 
 
-class WorkerCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+class WorkerCreateView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    generic.CreateView
+):
     model = Worker
     form_class = WorkerCreationForm
     permission_required = "worker.add_worker"
 
 
-class WorkerUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+class WorkerUpdateView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    generic.UpdateView
+):
     model = Worker
     form_class = WorkerUpdateForm
 
@@ -82,23 +99,29 @@ class WorkerUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateVi
 
     def test_func(self):
         update_user = self.get_object()
-        return (
-            self.request.user == update_user
-            or self.request.user.has_perm("worker.change_worker")
+        return self.request.user == update_user or self.request.user.has_perm(
+            "worker.change_worker"
         )
 
     def handle_no_permission(self):
         raise PermissionDenied
 
     def get_success_url(self):
-        return reverse_lazy("worker:worker-detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy(
+            "worker:worker-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
 class WorkerPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     model = Worker
 
 
-class WorkerDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+class WorkerDeleteView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    generic.DeleteView
+):
     model = Worker
     permission_required = "worker.delete_worker"
     success_url = reverse_lazy("worker:worker-list")

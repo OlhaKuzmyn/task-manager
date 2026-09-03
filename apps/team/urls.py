@@ -5,7 +5,7 @@ from apps.team.views import (
     TeamDetailView,
     TeamCreateView,
     TeamUpdateView,
-    TeamDeleteView
+    TeamDeleteView,
 )
 
 app_name = "team"

@@ -19,7 +19,11 @@ class Task(models.Model):
     is_completed = models.BooleanField(default=False)
     priority = models.IntegerField(choices=Priority.choices)
     task_type = models.ForeignKey(TaskType, on_delete=models.CASCADE)
-    assignees = models.ManyToManyField(Worker, blank=True, related_name="tasks")
+    assignees = models.ManyToManyField(
+        Worker,
+        blank=True,
+        related_name="tasks"
+    )
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     def __str__(self):

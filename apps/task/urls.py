@@ -5,7 +5,7 @@ from apps.task.views import (
     TaskCreateView,
     TaskUpdateView,
     TaskDeleteView,
-    TaskDetailView
+    TaskDetailView,
 )
 
 app_name = "task"

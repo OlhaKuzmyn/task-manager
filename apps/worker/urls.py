@@ -1,8 +1,14 @@
 from django.urls import path
 
-from apps.worker.views import WorkerListView, WorkerCreateView, WorkerDetailView, WorkerUpdateView, WorkerDeleteView
+from apps.worker.views import (
+    WorkerListView,
+    WorkerCreateView,
+    WorkerDetailView,
+    WorkerUpdateView,
+    WorkerDeleteView,
+)
 
-app_name = 'worker'
+app_name = "worker"
 
 urlpatterns = [
     path("", WorkerListView.as_view(), name="worker-list"),

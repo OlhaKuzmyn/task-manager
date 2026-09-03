@@ -7,7 +7,8 @@ from apps.team.models import Team
 
 
 def index(request):
-    """Introductory view with not completed Tasks, Projects, Teams and workers count"""
+    """Introductory view with not completed
+    Tasks, Projects, Teams and workers count"""
 
     num_tasks_not_completed = Task.objects.filter(is_completed=False).count()
     num_projects = Project.objects.count()

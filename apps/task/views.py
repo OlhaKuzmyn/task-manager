@@ -22,7 +22,9 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         if self.request.user.team:
-            user_team_projects = Team.objects.get(worker__id=self.request.user.id).projects.all()
+            user_team_projects = Team.objects.get(
+                worker__id=self.request.user.id
+            ).projects.all()
         form = TaskSearchForm(self.request.GET)
 
         filter_select = "mine_and_team"
@@ -30,7 +32,8 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         name = deadline = priority = task_type = project = None
 
         if form.is_valid():
-            filter_select = form.cleaned_data["filter_select"] or "mine_and_team"
+            filter_select = (form.cleaned_data["filter_select"]
+                             or "mine_and_team")
             deadline = form.cleaned_data["deadline"]
             priority = form.cleaned_data["priority"]
             task_type = form.cleaned_data["task_type"]
@@ -39,11 +42,13 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
             is_completed = form.cleaned_data["is_completed"]
             no_assignees = form.cleaned_data["no_assignees"]
 
-
         if filter_select == "all":
             queryset = Task.objects.all()
         elif filter_select == "mine_and_team" and self.request.user.team:
-            queryset = Task.objects.filter(Q(project__in=user_team_projects) | Q(assignees=self.request.user))
+            queryset = Task.objects.filter(
+                Q(project__in=user_team_projects)
+                | Q(assignees=self.request.user)
+            )
         elif filter_select == "team" and self.request.user.team:
             queryset = Task.objects.filter(Q(project__in=user_team_projects))
         else:

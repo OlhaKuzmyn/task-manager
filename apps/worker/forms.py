@@ -11,7 +11,11 @@ class WorkerCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
         fields = UserCreationForm.Meta.fields + (
-            "first_name", "last_name", "email", "position", "team"
+            "first_name",
+            "last_name",
+            "email",
+            "position",
+            "team",
         )
 
 
@@ -23,7 +27,12 @@ class WorkerUpdateForm(UserChangeForm):
     class Meta(UserChangeForm.Meta):
         model = get_user_model()
         fields = (
-            "username", "first_name", "last_name", "email", "position", "team",
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "position",
+            "team",
         )
 
 
@@ -32,9 +41,11 @@ class WorkerSearchForm(forms.Form):
         max_length=255,
         required=False,
         label="",
-        widget=forms.TextInput(attrs={
-            "placeholder": "Search by last name",
-        })
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search by last name",
+            }
+        ),
     )
     position = forms.ModelChoiceField(
         required=False,

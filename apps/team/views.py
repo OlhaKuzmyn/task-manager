@@ -1,4 +1,7 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin
+)
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -21,7 +24,7 @@ class TeamListView(LoginRequiredMixin, generic.ListView):
                 "name": name,
                 "projects": projects,
                 "no_team_members": no_team_members,
-                "no_projects": no_projects
+                "no_projects": no_projects,
             }
         )
         return context
@@ -53,7 +56,11 @@ class TeamDetailView(LoginRequiredMixin, generic.DetailView):
     model = Team
 
 
-class TeamCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+class TeamCreateView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    generic.CreateView
+):
     model = Team
     form_class = TeamForm
     permission_required = "team.add_team"
@@ -62,7 +69,11 @@ class TeamCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Create
         return reverse_lazy("team:team-detail", kwargs={"pk": self.object.pk})
 
 
-class TeamUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+class TeamUpdateView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    generic.UpdateView
+):
     model = Team
     form_class = TeamForm
     permission_required = "team.change_team"
@@ -71,7 +82,11 @@ class TeamUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.Update
         return reverse_lazy("team:team-detail", kwargs={"pk": self.object.pk})
 
 
-class TeamDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+class TeamDeleteView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    generic.DeleteView
+):
     model = Team
     permission_required = "team.delete_team"
     success_url = reverse_lazy("team:team-list")

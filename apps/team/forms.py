@@ -8,11 +8,16 @@ class TeamForm(forms.ModelForm):
     projects = forms.ModelMultipleChoiceField(
         required=False,
         queryset=Project.objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple,
     )
+
     class Meta:
         model = Team
-        fields = ("name", "description", "projects", )
+        fields = (
+            "name",
+            "description",
+            "projects",
+        )
 
 
 class TeamSearchForm(forms.Form):
@@ -20,15 +25,17 @@ class TeamSearchForm(forms.Form):
         max_length=255,
         required=False,
         label="",
-        widget=forms.TextInput(attrs={
-            "placeholder": "Search by name",
-        })
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search by name",
+            }
+        ),
     )
     projects = forms.ModelMultipleChoiceField(
         required=False,
         queryset=Project.objects.all(),
         label="",
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple,
     )
     no_projects = forms.BooleanField(
         initial=False,

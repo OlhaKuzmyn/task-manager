@@ -1,4 +1,7 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin
+)
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -30,20 +33,27 @@ class PositionListView(LoginRequiredMixin, generic.ListView):
         return queryset
 
 
-class PositionCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+class PositionCreateView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView
+):
     model = Position
     fields = "__all__"
     permission_required = "position.add_position"
     success_url = reverse_lazy("position:position-list")
 
 
-class PositionUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+class PositionUpdateView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView
+):
     model = Position
     fields = "__all__"
     permission_required = "position.change_position"
     success_url = reverse_lazy("position:position-list")
 
-class PositionDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+
+class PositionDeleteView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView
+):
     model = Position
     permission_required = "position.delete_position"
     success_url = reverse_lazy("position:position-list")

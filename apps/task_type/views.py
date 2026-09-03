@@ -1,4 +1,7 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin
+)
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -32,21 +35,29 @@ class TaskTypeListView(LoginRequiredMixin, generic.ListView):
         return queryset
 
 
-class TaskTypeCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+class TaskTypeCreateView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView
+):
     model = TaskType
     fields = "__all__"
     permission_required = "task_type.add_tasktype"
     template_name = "task_type/task_type_form.html"
     success_url = reverse_lazy("task_type:task-type-list")
 
-class TaskTypeUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+
+class TaskTypeUpdateView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView
+):
     model = TaskType
     fields = "__all__"
     permission_required = "task_type.change_tasktype"
     template_name = "task_type/task_type_form.html"
     success_url = reverse_lazy("task_type:task-type-list")
 
-class TaskTypeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+
+class TaskTypeDeleteView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView
+):
     model = TaskType
     permission_required = "task_type.delete_tasktype"
     template_name = "task_type/task_type_confirm_delete.html"

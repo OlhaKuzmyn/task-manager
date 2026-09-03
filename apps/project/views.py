@@ -1,4 +1,7 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin
+)
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -38,25 +41,37 @@ class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
     model = Project
 
 
-class ProjectCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
+class ProjectCreateView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView
+):
     model = Project
     fields = "__all__"
     permission_required = "project.add_project"
 
     def get_success_url(self):
-        return reverse_lazy("project:project-detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy(
+            "project:project-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
-class ProjectUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+class ProjectUpdateView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView
+):
     model = Project
     fields = "__all__"
     permission_required = "project.change_project"
 
     def get_success_url(self):
-        return reverse_lazy("project:project-detail", kwargs={"pk": self.object.pk})
+        return reverse_lazy(
+            "project:project-detail",
+            kwargs={"pk": self.object.pk}
+        )
 
 
-class ProjectDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
+class ProjectDeleteView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView
+):
     model = Project
     permission_required = "project.delete_project"
     success_url = reverse_lazy("project:project-list")

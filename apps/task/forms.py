@@ -23,15 +23,17 @@ class TaskSearchForm(forms.Form):
         required=False,
         initial=True,
         label="Assigned to me",
-        widget=forms.CheckboxInput()
+        widget=forms.CheckboxInput(),
     )
     name = forms.CharField(
         max_length=255,
         required=False,
         label="",
-        widget=forms.TextInput(attrs={
-            "placeholder": "Search by name",
-        })
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "Search by name",
+            }
+        ),
     )
     deadline = forms.DateField(
         required=False,
@@ -41,7 +43,7 @@ class TaskSearchForm(forms.Form):
                 "placeholder": "Search by deadline",
                 "type": "date",
             }
-        )
+        ),
     )
     is_completed = forms.BooleanField(
         initial=False,
@@ -70,7 +72,7 @@ class TaskSearchForm(forms.Form):
         initial=False,
         required=False,
         label="No assignees",
-        widget=forms.CheckboxInput()
+        widget=forms.CheckboxInput(),
     )
 
 
@@ -78,14 +80,16 @@ class TaskForm(forms.ModelForm):
     assignees = forms.ModelMultipleChoiceField(
         required=False,
         queryset=get_user_model().objects.all(),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple,
     )
 
     class Meta:
         model = Task
         fields = "__all__"
         widgets = {
-            "deadline": forms.DateInput(attrs={
-                "type": "date",
-            })
+            "deadline": forms.DateInput(
+                attrs={
+                    "type": "date",
+                }
+            )
         }
