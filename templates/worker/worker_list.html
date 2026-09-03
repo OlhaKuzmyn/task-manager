@@ -1,24 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Workers</h1>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Workers</h1>
     {% if perms.worker.add_worker %}
       <a href="{% url 'worker:worker-create' %}" class="btn btn-primary">Add worker</a>
     {% endif %}
-    {% if worker_list %}
+  </div>
+
+  <div class="row">
+    <div class="col-md-9">
+      {% if worker_list %}
+        <div class="card-deck" style="flex-direction: column;">
+          {% for worker in worker_list %}
+            <div class="card mb-3">
+              <a href="{% url 'worker:worker-detail' pk=worker.id %}" class="text-decoration-none text-dark">
+                <div class="card-body">
+                  <h5 class="card-title">{{ worker.first_name }} {{ worker.last_name }}</h5>
+                  <p class="card-text mb-2">{% if worker.position %}Position: {{ worker.position.name }} {% else %}No position {% endif %}</p>
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No workers found.</p>
+      {% endif %}
+    </div>
+
+    <div class="col-md-3">
       {% include "includes/search.html" %}
-      <a href="{% url 'worker:worker-list' %}" class="btn btn-secondary">Reset</a>
-      <ul>
-        {% for worker in worker_list %}
-          <li>
-            <a href="{% url 'worker:worker-detail' pk=worker.id %}">
-              Worker name: {{ worker.first_name }} {{ worker.last_name }}
-              Position: {{ worker.position.name }}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-    <p>No workers found.</p>
-    {% endif %}
+      <a href="{% url 'worker:worker-list' %}" class="btn btn-secondary btn-block mt-2">Reset</a>
+    </div>
+  </div>
 {% endblock %}
