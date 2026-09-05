@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Positions</h1>
+    {% if perms.position.add_position %}
+        <a href="{% url 'position:position-create' %}" class="btn btn-primary">Add position</a>
+    {% endif %}
+  </div>
+
+  <div class="row">
+    <div class="col-md-9">
+      {% if position_list %}
+        <div class="card-deck" style="flex-direction: column;">
+          {% for position in position_list %}
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title">{{ position.name }}</h5>
+                {% if perms.position.change_position %}
+                  <a href="{% url 'position:position-update' pk=position.id %}" class="btn btn-secondary">Edit position</a>
+                {% endif %}
+                {% if perms.position.delete_position %}
+                  <a href="{% url 'position:position-delete' pk=position.id %}" class="btn btn-danger">Delete position</a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p>No positions found.</p>
+      {% endif %}
+    </div>
+      <div class="col-md-3">
+        {% include "includes/search.html" %}
+        <a href="{% url 'position:position-list' %}" class="btn btn-secondary btn-block mt-2">Reset</a>
+      </div>
+  </div>
+{% endblock %}
