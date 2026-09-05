@@ -1,7 +1,8 @@
 Task manager Django project
 
 This project has the following structure:
-<img width="1057" height="713" alt="https://drive.google.com/file/d/1LhK4v698qVOz-45w0KEaaPVuMitF4L5X/view?usp=sharing" src="https://github.com/user-attachments/assets/5125dc29-0ecd-433c-9e98-6bee949b138a" />
+<img width="1048" height="711" alt="https://drive.google.com/file/d/1LhK4v698qVOz-45w0KEaaPVuMitF4L5X/view?usp=sharing" src="https://github.com/user-attachments/assets/492524be-233b-4c63-987a-177130deb4bf" />
+
 
 
 Home page shows available tasks, projects, teams and workers:
