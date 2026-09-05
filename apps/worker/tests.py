@@ -13,7 +13,11 @@ class TestWorkerManagerView(TestCase):
             password="test1234"
         )
         self.manager_group = Group.objects.get(name="Manager")
-        self.manager_group.permissions.set(Permission.objects.filter(codename__in=["add_worker", "change_worker"]))
+        self.manager_group.permissions.set(
+            Permission.objects.filter(
+                codename__in=["add_worker", "change_worker"]
+            )
+        )
         self.user.groups.add(self.manager_group)
         self.user.is_manager = True
         self.user.save()
@@ -27,7 +31,9 @@ class TestWorkerManagerView(TestCase):
             "last_name": "Test Last",
         }
 
-        self.response = self.client.post(WORKER_CREATE_URL, data=self.form_data)
+        self.response = self.client.post(
+            WORKER_CREATE_URL, data=self.form_data
+        )
 
     def test_worker_creation(self):
         self.assertEqual(self.response.status_code, 302)
@@ -45,14 +51,17 @@ class TestWorkerManagerView(TestCase):
         new_upd_user = get_user_model().objects.get(
             username=self.form_data["username"]
         )
-        WORKER_DETAIL_URL = reverse("worker:worker-detail", kwargs={"pk": new_upd_user.id})
-        upd_response = self.client.post(WORKER_DETAIL_URL)
+        worker_detail_url = reverse(
+            "worker:worker-detail", kwargs={"pk": new_upd_user.id}
+        )
+        upd_response = self.client.post(worker_detail_url)
         self.assertEqual(upd_response.status_code, 302)
 
         new_upd_user.refresh_from_db()
 
         self.assertEqual(
-            True, new_upd_user.groups.filter(name="Manager").exists() and new_upd_user.is_manager
+            True, new_upd_user.groups.filter(name="Manager").exists()
+            and new_upd_user.is_manager
         )
 
     def test_superuser_is_manager(self):
@@ -63,7 +72,8 @@ class TestWorkerManagerView(TestCase):
 
         )
         self.assertEqual(
-            True, new_super_user.groups.filter(name="Manager").exists() and new_super_user.is_manager
+            True, new_super_user.groups.filter(name="Manager").exists()
+            and new_super_user.is_manager
         )
 
 

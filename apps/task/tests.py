@@ -57,7 +57,9 @@ class TestTaskList(TestCase):
         tasks_user_test = Task.objects.filter(
             assignees=self.user,
         )
-        response_query = self.client.get(TASK_LIST_URL, {"filter_select": "mine"})
+        response_query = self.client.get(
+            TASK_LIST_URL, {"filter_select": "mine"}
+        )
         self.assertEqual(response_query.status_code, 200)
         self.assertEqual(
             list(tasks_user_test),
