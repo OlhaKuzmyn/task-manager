@@ -30,5 +30,8 @@ Managers can also modify, create and remove teams, projects, positions and task 
 <img width="1912" height="711" alt="team list page for manager" src="https://github.com/user-attachments/assets/53367378-727e-4631-b56c-0074901d6595" />
 <img width="1913" height="730" alt="team detail page for manager" src="https://github.com/user-attachments/assets/730b1317-4898-4fe3-a545-60ec54f31a95" />
 
-Task list page is sorted by default by priority. Urgent -> High -> Medium -> Low. By default user and user team's tasks are shown in a task list page. This display can be changed. Completed projects are hidden by default.
-<img width="1915" height="917" alt="task list page" src="https://github.com/user-attachments/assets/6a27e934-2166-4bbe-a0ad-bb75524f9cf0" />
+Task list page is sorted by default by priority. Urgent -> High -> Medium -> Low. By default user and user team's tasks are shown in a task list page. This display can be changed. Completed projects are hidden by default. List can also be filtered and searched by name, deadline on before, priority, task type, project and whether it has no assignees.
+<img width="1914" height="909" alt="task list page" src="https://github.com/user-attachments/assets/3bdbb3b0-0cb0-4c7c-85e5-ba2a8f4489c9" />
+
+
+
