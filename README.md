@@ -1,7 +1,7 @@
 Task manager Django project
 
 This project has the following structure:
-<img width="1048" height="711" alt="https://drive.google.com/file/d/1LhK4v698qVOz-45w0KEaaPVuMitF4L5X/view?usp=sharing" src="https://github.com/user-attachments/assets/492524be-233b-4c63-987a-177130deb4bf" />
+<img width="1059" height="674" alt="https://drive.google.com/file/d/1LhK4v698qVOz-45w0KEaaPVuMitF4L5X/view?usp=sharing" src="https://github.com/user-attachments/assets/d2f356ef-1a51-4eb9-b8d5-dffe83561eac" />
 
 
 
