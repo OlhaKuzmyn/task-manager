@@ -1,7 +1,7 @@
 Task manager Django project
 
 This project has the following structure:
-<img width="1059" height="674" alt="https://drive.google.com/file/d/1LhK4v698qVOz-45w0KEaaPVuMitF4L5X/view?usp=sharing" src="https://github.com/user-attachments/assets/d2f356ef-1a51-4eb9-b8d5-dffe83561eac" />
+<img width="1047" height="682" alt="https://drive.google.com/file/d/1LhK4v698qVOz-45w0KEaaPVuMitF4L5X/view?usp=sharing" src="https://github.com/user-attachments/assets/3b7ee78b-1dfb-4c73-bfc8-47fbc6ffeeb5" />
 
 
 
@@ -31,7 +31,7 @@ Managers can also modify, create and remove teams, projects, positions and task 
 <img width="1912" height="711" alt="team list page for manager" src="https://github.com/user-attachments/assets/53367378-727e-4631-b56c-0074901d6595" />
 <img width="1913" height="730" alt="team detail page for manager" src="https://github.com/user-attachments/assets/730b1317-4898-4fe3-a545-60ec54f31a95" />
 
-Task list page is sorted by default by priority. Urgent -> High -> Medium -> Low. By default user and user team's tasks are shown in a task list page. This display can be changed. Completed projects are hidden by default. List can also be filtered and searched by name, deadline on before, priority, task type, project and whether it has no assignees.
+Task list page is sorted by default by priority. Urgent -> High -> Medium -> Low. By default user and user teams' tasks are shown in a task list page. This display can be changed. Completed projects are hidden by default. List can also be filtered and searched by name, deadline on before, priority, task type, project and whether it has no assignees.
 <img width="1914" height="909" alt="task list page" src="https://github.com/user-attachments/assets/3bdbb3b0-0cb0-4c7c-85e5-ba2a8f4489c9" />
 
 
