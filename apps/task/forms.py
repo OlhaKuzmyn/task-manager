@@ -19,12 +19,6 @@ class TaskSearchForm(forms.Form):
         label="Filter",
         widget=forms.RadioSelect,
     )
-    assigned_to_me = forms.BooleanField(
-        required=False,
-        initial=True,
-        label="Assigned to me",
-        widget=forms.CheckboxInput(),
-    )
     name = forms.CharField(
         max_length=255,
         required=False,
