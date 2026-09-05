@@ -24,7 +24,7 @@ Users can modify their details and have the possibility of changing their passwo
 Only users in Manager authorisation group can modify, add and remove other workers and themselves.
 <img width="1917" height="781" alt="worker list page for manager" src="https://github.com/user-attachments/assets/76501f5c-0d4c-4495-8468-893dd5599805" />
 
-Users can also add or remove other users from manager group.
+Managers can also add or remove other users from manager group.
 <img width="1915" height="673" alt="worker detail page for manager" src="https://github.com/user-attachments/assets/75b1c7c0-9cfe-464a-b1ab-045ddf28b790" />
 
 Managers can also modify, create and remove teams, projects, positions and task types
