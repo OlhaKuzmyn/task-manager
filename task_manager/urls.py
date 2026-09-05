@@ -18,9 +18,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-# from debug_toolbar.toolbar import debug_toolbar_urls
+from debug_toolbar.toolbar import debug_toolbar_urls
 
-urlpatterns = [
+urlpatterns = ([
     path("admin/", admin.site.urls),
     path("", include("apps.manager.urls", namespace="manager")),
     path("tasks/", include("apps.task.urls", namespace="task")),
@@ -30,6 +30,5 @@ urlpatterns = [
     path("teams/", include("apps.team.urls", namespace="team")),
     path("workers/", include("apps.worker.urls", namespace="worker")),
     path("accounts/", include("django.contrib.auth.urls")),
-    # path("__debug__/", include("debug_toolbar.urls")),
-]
-# + debug_toolbar_urls())
+    path("__debug__/", include("debug_toolbar.urls")),
+] + debug_toolbar_urls())
