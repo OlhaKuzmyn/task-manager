@@ -60,7 +60,7 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
 
     def post(self, request, *args, **kwargs):
-        if request.user.has_perm("worker.add_worker"):
+        if request.user.has_perm("worker.change_worker"):
             update_worker = self.get_object()
             manager_group = get_object_or_404(Group, name="Manager")
             if manager_group in update_worker.groups.all():
