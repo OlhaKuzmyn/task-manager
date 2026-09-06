@@ -1,4 +1,10 @@
-Task manager Django project
+# Task manager Django project
+
+
+## Description
+
+This is a project for task management that can be used in IT company. It provides basic task functionality, possibility to filter tasks based on projects they are related to.
+Priority and deadline is assigned to each task for easier tracking.
 
 This project has the following structure:
 <img width="1057" height="713" alt="https://drive.google.com/file/d/1LhK4v698qVOz-45w0KEaaPVuMitF4L5X/view?usp=sharing" src="https://github.com/user-attachments/assets/5125dc29-0ecd-433c-9e98-6bee949b138a" />
@@ -32,3 +38,18 @@ Managers can also modify, create and remove teams, projects, positions and task 
 
 Task list page is sorted by default by priority. Urgent -> High -> Medium -> Low. By default user and user team's tasks are shown in a task list page. This display can be changed. Completed projects are hidden by default.
 <img width="1915" height="917" alt="task list page" src="https://github.com/user-attachments/assets/6a27e934-2166-4bbe-a0ad-bb75524f9cf0" />
+
+
+## Installation
+
+1. Create and activate a virtual environment: python -m venv venv venv\Scripts\activate
+2. pip install -r requirements.txt 
+3. python manage.py migrate
+4. python manage.py runserver
+
+
+Login & Superuser
+
+To access the admin panel or log in with administrative privileges, create a superuser account:
+
+python manage.py createsuperuser
