@@ -3,6 +3,9 @@ from django.contrib.auth.models import Group, Permission
 from django.test import TestCase
 from django.urls import reverse
 
+from apps.position.models import Position
+from apps.team.models import Team
+
 WORKER_CREATE_URL = reverse("worker:worker-create")
 
 
@@ -23,13 +26,19 @@ class TestWorkerManagerView(TestCase):
         self.user.save()
         self.client.force_login(self.user)
 
+        test_position = Position.objects.create(name="test_position")
+        test_team = Team.objects.create(name="test_team")
+
         self.form_data = {
             "username": "test_user",
             "password1": "us3r12t@st@new",
             "password2": "us3r12t@st@new",
             "first_name": "Test First",
             "last_name": "Test Last",
+            "position": test_position.id,
+            "team": test_team.id,
         }
+
 
         self.response = self.client.post(
             WORKER_CREATE_URL, data=self.form_data
@@ -45,6 +54,12 @@ class TestWorkerManagerView(TestCase):
         )
         self.assertEqual(
             self.form_data["last_name"], new_user.last_name
+        )
+        self.assertEqual(
+            self.form_data["position"], new_user.position.pk
+        )
+        self.assertEqual(
+            self.form_data["team"], new_user.team.pk
         )
 
     def test_worker_update_manager(self):
