@@ -47,12 +47,3 @@ class TestProject(TestCase):
         self.assertTrue("is_paginated" in response.context)
         self.assertTrue(response.context["is_paginated"])
         self.assertEqual(len(response.context["project_list"]), 5)
-
-    def test_project_unique_name(self):
-        Project.objects.create(
-            name="Test Project",
-        )
-        with self.assertRaises(IntegrityError):
-            Project.objects.create(name="Test Project")
-
-

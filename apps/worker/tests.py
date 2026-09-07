@@ -39,7 +39,6 @@ class TestWorkerManagerView(TestCase):
             "team": test_team.id,
         }
 
-
         self.response = self.client.post(
             WORKER_CREATE_URL, data=self.form_data
         )
@@ -118,4 +117,7 @@ class TestModelWorker(TestCase):
             username="user",
             password="usermodel1234"
         )
-        self.assertEqual(new_user.get_absolute_url(), f"/workers/{new_user.id}/")
+        self.assertEqual(
+            new_user.get_absolute_url(),
+            f"/workers/{new_user.id}/"
+        )

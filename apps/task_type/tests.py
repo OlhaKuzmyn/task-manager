@@ -35,5 +35,5 @@ class TestTaskTypeSearch(TestCase):
         self.assertEqual(response_query.status_code, 200)
         self.assertEqual(
             list(new_task_types),
-            list(response_query.context['task_type_list']),
+            list(response_query.context["task_type_list"]),
         )
