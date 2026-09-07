@@ -30,7 +30,7 @@ class TestTaskList(TestCase):
         Task.objects.create(
             name="Task 1",
             deadline=datetime.datetime.now(),
-            priority=1,
+            priority=0,
             task_type=test_type,
             project=project,
         )
@@ -57,11 +57,24 @@ class TestTaskList(TestCase):
         tasks_user_test = Task.objects.filter(
             assignees=self.user,
         )
-        response_query = self.client.get(
+        response_query_mine = self.client.get(
             TASK_LIST_URL, {"filter_select": "mine"}
         )
-        self.assertEqual(response_query.status_code, 200)
+        tasks_prio_high = Task.objects.filter(priority=1)
+        response_query_all_priority = self.client.get(
+            TASK_LIST_URL, {
+                "filter_select": "all",
+                "priority": "1"
+            }
+        )
+        self.assertEqual(response_query_mine.status_code, 200)
         self.assertEqual(
             list(tasks_user_test),
-            list(response_query.context["task_list"])
+            list(response_query_mine.context["task_list"])
+        )
+
+        self.assertEqual(response_query_all_priority.status_code, 200)
+        self.assertEqual(
+            list(tasks_prio_high),
+            list(response_query_all_priority.context["task_list"])
         )
