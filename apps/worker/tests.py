@@ -74,8 +74,8 @@ class TestWorkerManagerView(TestCase):
 
         new_upd_user.refresh_from_db()
 
-        self.assertEqual(
-            True, new_upd_user.groups.filter(name="Manager").exists()
+        self.assertTrue(
+            new_upd_user.groups.filter(name="Manager").exists()
             and new_upd_user.is_manager
         )
 
@@ -86,8 +86,8 @@ class TestWorkerManagerView(TestCase):
             password="us3r12t@st@new"
 
         )
-        self.assertEqual(
-            True, new_super_user.groups.filter(name="Manager").exists()
+        self.assertTrue(
+            new_super_user.groups.filter(name="Manager").exists()
             and new_super_user.is_manager
         )
 
