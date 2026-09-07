@@ -110,3 +110,12 @@ class TestWorkerNonManagerView(TestCase):
         }
         response = self.client.post(WORKER_CREATE_URL, data=form_data)
         self.assertEqual(response.status_code, 403)
+
+
+class TestModelWorker(TestCase):
+    def test_get_absolute_url(self):
+        new_user = get_user_model().objects.create_user(
+            username="user",
+            password="usermodel1234"
+        )
+        self.assertEqual(new_user.get_absolute_url(), f"/workers/{new_user.id}/")
