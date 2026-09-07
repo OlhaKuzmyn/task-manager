@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, Permission
+from django.db import IntegrityError
 from django.test import TestCase
 from django.urls import reverse
 
@@ -9,7 +10,7 @@ PROJECT_CREATE_URL = reverse("project:project-create")
 PROJECT_LIST_URL = reverse("project:project-list")
 
 
-class TestProjectView(TestCase):
+class TestProject(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(
             username="manager_user",
@@ -46,3 +47,12 @@ class TestProjectView(TestCase):
         self.assertTrue("is_paginated" in response.context)
         self.assertTrue(response.context["is_paginated"])
         self.assertEqual(len(response.context["project_list"]), 5)
+
+    def test_project_unique_name(self):
+        Project.objects.create(
+            name="Test Project",
+        )
+        with self.assertRaises(IntegrityError):
+            Project.objects.create(name="Test Project")
+
+
