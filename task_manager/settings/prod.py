@@ -2,7 +2,6 @@ from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-# DEBUG = True if os.environ.get("DEBUG") == "True" else False
 
 ALLOWED_HOSTS = []
 
