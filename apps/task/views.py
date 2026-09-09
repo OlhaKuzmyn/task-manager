@@ -22,9 +22,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         if self.request.user.team:
-            user_team_projects = Team.objects.get(
-                worker__id=self.request.user.id
-            ).projects.all()
+            user_team_projects = self.request.user.team.projects.all()
         form = TaskSearchForm(self.request.GET)
 
         filter_select = "mine_and_team"
