@@ -53,3 +53,11 @@ Login & Superuser
 To access the admin panel or log in with administrative privileges, create a superuser account:
 
 python manage.py createsuperuser
+
+## Deployed project
+
+Project can be viewed via https://task-manager-ofwj.onrender.com/
+
+username: user
+
+password: NewUser@1
